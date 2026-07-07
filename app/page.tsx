@@ -3,6 +3,7 @@
 import { useState, useSyncExternalStore } from "react";
 import { AlignmentPanel } from "@/components/AlignmentPanel";
 import { ChatPanel, type DisplayMessage } from "@/components/ChatPanel";
+import { IntroModal } from "@/components/IntroModal";
 import { ResultPanel } from "@/components/ResultPanel";
 import { SavedPanel } from "@/components/SavedPanel";
 import { extractCard } from "@/lib/parseCard";
@@ -24,6 +25,7 @@ export default function Home() {
   const [error, setError] = useState<string | null>(null);
   const [brandDefined, setBrandDefined] = useState(false);
   const [formatChosen, setFormatChosen] = useState(false);
+  const [introOpen, setIntroOpen] = useState(true);
 
   async function sendMessage(text: string) {
     if (!text.trim() || loading) return;
@@ -90,6 +92,7 @@ export default function Home() {
 
   return (
     <div className="h-screen overflow-hidden">
+      <IntroModal open={introOpen} onClose={() => setIntroOpen(false)} />
       <main className="h-full grid grid-cols-1 md:grid-cols-[15%_70%_15%] divide-y md:divide-y-0 md:divide-x divide-gold/10">
         <div className="min-h-0">
           <ResultPanel cards={cards} savedKeys={savedKeys} onSave={handleSaveCard} />
