@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useSyncExternalStore } from "react";
+import { AlignmentPanel } from "@/components/AlignmentPanel";
 import { ChatPanel, type DisplayMessage } from "@/components/ChatPanel";
 import { ResultPanel } from "@/components/ResultPanel";
 import { SavedPanel } from "@/components/SavedPanel";
@@ -118,8 +119,13 @@ export default function Home() {
             error={error}
           />
         </div>
-        <div className="min-h-0 bg-panel/60">
-          <SavedPanel assets={saved} onRemove={handleRemoveSaved} />
+        <div className="min-h-0 bg-panel/60 flex flex-col divide-y divide-gold/10">
+          <div className="flex-[3] min-h-0">
+            <SavedPanel assets={saved} onRemove={handleRemoveSaved} />
+          </div>
+          <div className="flex-[2] min-h-0">
+            <AlignmentPanel hasSaved={saved.length > 0} />
+          </div>
         </div>
       </main>
     </div>
