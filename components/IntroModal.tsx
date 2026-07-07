@@ -16,37 +16,49 @@ export function IntroModal({ open, onClose }: { open: boolean; onClose: () => vo
 
   return (
     <div
-      className="fixed inset-0 z-[100] flex items-center justify-center bg-void/80 backdrop-blur-sm px-6"
+      className="fixed inset-0 z-[100] flex items-center justify-center bg-void/85 backdrop-blur-sm px-6"
       onClick={onClose}
     >
       <div
-        className="relative w-full max-w-lg rounded-2xl border border-gold/25 bg-abyss p-10 text-center shadow-[0_0_80px_-12px_rgba(203,161,53,0.35)]"
+        className="relative w-full max-w-xl overflow-hidden rounded-2xl border border-gold/25 bg-abyss px-10 py-14 text-center shadow-[0_0_100px_-16px_rgba(203,161,53,0.4)]"
         onClick={(e) => e.stopPropagation()}
       >
+        <div
+          className="pointer-events-none absolute inset-0"
+          style={{
+            background:
+              "radial-gradient(circle at 50% 30%, rgba(232,199,102,0.14) 0%, transparent 55%), radial-gradient(circle at 50% 100%, rgba(88,28,135,0.25) 0%, transparent 60%)",
+          }}
+        />
+
         <button
           onClick={onClose}
-          aria-label="닫기"
-          className="absolute top-4 right-4 h-8 w-8 flex items-center justify-center rounded-full text-faint hover:text-ink hover:bg-white/5 transition-colors"
+          aria-label="Close"
+          className="absolute top-5 right-5 h-8 w-8 flex items-center justify-center rounded-full text-faint hover:text-ink hover:bg-white/5 transition-colors"
         >
           ✕
         </button>
 
-        <p className="text-[10px] uppercase tracking-[0.5em] text-faint">
-          Brand Narrative OS
-        </p>
-        <h2 className="mt-3 font-display text-2xl tracking-[0.2em] text-gold-bright text-emboss">
-          NARRA
-        </h2>
-        <p className="mt-6 font-serif italic text-xl text-ink leading-relaxed">
-          당신의 브랜드는 사람들에게 어떤 세계로 기억되고 싶나요?
-        </p>
+        <div className="relative">
+          <p className="text-[10px] uppercase tracking-[0.5em] text-faint">
+            Brand Narrative OS
+          </p>
+          <h2 className="mt-3 font-display text-2xl tracking-[0.3em] text-gold-bright text-emboss">
+            NARRA
+          </h2>
 
-        <button
-          onClick={onClose}
-          className="mt-8 rounded-full bg-gold text-void px-7 py-3 text-sm font-semibold tracking-wide hover:bg-gold-bright transition-colors"
-        >
-          닫기
-        </button>
+          <p className="mx-auto mt-8 max-w-md font-serif italic text-[26px] sm:text-[30px] leading-[1.35] text-ink text-emboss-light">
+            What <span className="text-gold-bright">world</span> do you want
+            your brand to be remembered as?
+          </p>
+
+          <button
+            onClick={onClose}
+            className="mt-10 rounded-full bg-gold text-void px-8 py-3 text-sm font-semibold uppercase tracking-[0.15em] hover:bg-gold-bright transition-colors"
+          >
+            Close
+          </button>
+        </div>
       </div>
     </div>
   );
