@@ -1,11 +1,6 @@
 import type { Metadata } from "next";
-import { Geist, Cinzel, Cormorant_Garamond } from "next/font/google";
+import { Cinzel, Cormorant_Garamond } from "next/font/google";
 import "./globals.css";
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
 
 const cinzel = Cinzel({
   variable: "--font-display",
@@ -33,8 +28,14 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${cinzel.variable} ${cormorant.variable} h-full antialiased dark`}
+      className={`${cinzel.variable} ${cormorant.variable} h-full antialiased dark`}
     >
+      <head>
+        <link
+          rel="stylesheet"
+          href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.css"
+        />
+      </head>
       <body className="min-h-full flex flex-col">{children}</body>
     </html>
   );

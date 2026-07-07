@@ -22,9 +22,22 @@
   --color-gold-bright: var(--color-gold-bright);
   --color-panel: var(--color-panel);
   --color-panel-strong: var(--color-panel-strong);
-  --font-sans: var(--font-geist-sans);
+  --font-sans: "Pretendard Variable", Pretendard, -apple-system, sans-serif;
   --font-display: var(--font-display);
   --font-serif: var(--font-serif);
+}
+
+@utility text-emboss {
+  text-shadow:
+    0 1px 0 rgba(0, 0, 0, 0.5),
+    0 2px 6px rgba(0, 0, 0, 0.35),
+    0 0 22px rgba(232, 199, 102, 0.25);
+}
+
+@utility text-emboss-light {
+  text-shadow:
+    0 1px 0 rgba(0, 0, 0, 0.6),
+    0 1px 3px rgba(0, 0, 0, 0.4);
 }
 
 html {
@@ -39,7 +52,7 @@ body {
     radial-gradient(ellipse 100% 90% at 50% 120%, rgba(88, 28, 135, 0.18), transparent 60%),
     var(--color-void);
   color: var(--color-ink);
-  font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans);
   position: relative;
 }
 

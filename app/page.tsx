@@ -89,20 +89,23 @@ export default function Home() {
 
   return (
     <div className="flex flex-col h-screen overflow-hidden">
-      <header className="relative shrink-0 border-b border-gold/15 px-6 py-7 text-center overflow-hidden">
+      <header className="relative shrink-0 border-b border-gold/15 px-6 py-8 text-center overflow-hidden">
         <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_60%_140%_at_50%_0%,rgba(203,161,53,0.10),transparent_70%)]" />
-        <p className="relative text-[10px] uppercase tracking-[0.55em] text-faint">
+        <p className="relative text-xs uppercase tracking-[0.55em] text-faint text-emboss-light">
           Brand Narrative OS
         </p>
-        <h1 className="relative mt-2 font-display text-4xl sm:text-5xl tracking-[0.28em] text-gold-bright [text-shadow:0_0_30px_rgba(232,199,102,0.35)]">
+        <h1 className="relative mt-3 font-display text-5xl sm:text-6xl tracking-[0.28em] text-gold-bright [text-shadow:0_2px_0_rgba(0,0,0,0.55),0_1px_0_rgba(255,235,180,0.5),0_0_40px_rgba(232,199,102,0.4)]">
           NARRA
         </h1>
-        <p className="relative mt-2 font-serif italic text-lg text-muted tracking-wide">
+        <p className="relative mt-3 font-serif italic text-xl text-muted tracking-wide text-emboss-light">
           Every Brand Has Its Own World.
         </p>
       </header>
 
-      <main className="flex-1 min-h-0 grid grid-cols-1 lg:grid-cols-[1.1fr_1fr_360px] divide-y lg:divide-y-0 lg:divide-x divide-gold/10">
+      <main className="flex-1 min-h-0 grid grid-cols-1 lg:grid-cols-[1fr_1.1fr_360px] divide-y lg:divide-y-0 lg:divide-x divide-gold/10">
+        <div className="min-h-0">
+          <ResultPanel cards={cards} savedKeys={savedKeys} onSave={handleSaveCard} />
+        </div>
         <div className="min-h-0 bg-panel/40">
           <ChatPanel
             messages={display}
@@ -114,9 +117,6 @@ export default function Home() {
             onPickFormat={handlePickFormat}
             error={error}
           />
-        </div>
-        <div className="min-h-0">
-          <ResultPanel cards={cards} savedKeys={savedKeys} onSave={handleSaveCard} />
         </div>
         <div className="min-h-0 bg-panel/60">
           <SavedPanel assets={saved} onRemove={handleRemoveSaved} />

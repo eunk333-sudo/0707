@@ -39,14 +39,16 @@ export function NarraCardView({
           </button>
         )}
       </div>
-      <h3 className="font-display text-lg tracking-wide text-ink">{card.title}</h3>
+      <h3 className="font-display text-xl tracking-wide text-ink text-emboss-light">
+        {card.title}
+      </h3>
       <dl className="flex flex-col gap-4">
         {Object.entries(card.fields).map(([label, value]) => (
           <div key={label}>
-            <dt className="text-[10px] uppercase tracking-[0.25em] text-muted mb-1.5">
+            <dt className="text-[11px] uppercase tracking-[0.25em] text-muted mb-1.5">
               {label}
             </dt>
-            <dd className="text-[13.5px] text-ink/90 leading-relaxed whitespace-pre-wrap">
+            <dd className="text-[15px] text-ink/75 leading-relaxed whitespace-pre-wrap">
               {value}
             </dd>
           </div>

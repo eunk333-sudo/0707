@@ -42,32 +42,32 @@ export function ChatPanel({
 
   return (
     <div className="flex flex-col h-full">
-      <div className="px-6 py-4 border-b border-gold/10">
-        <h2 className="text-[11px] font-display uppercase tracking-[0.4em] text-gold/80">
+      <div className="px-6 py-5 border-b border-gold/10">
+        <h2 className="text-base font-display font-bold uppercase tracking-[0.4em] text-gold/90 text-emboss">
           탐험
         </h2>
       </div>
 
       <div className="flex-1 overflow-y-auto px-6 py-6 flex flex-col gap-5">
         {messages.length === 0 && (
-          <p className="font-serif italic text-[15px] text-muted leading-relaxed max-w-md">
+          <p className="font-serif italic text-lg text-muted leading-relaxed max-w-md">
             당신의 브랜드는 어떤 세계를 꿈꾸고 있나요?
           </p>
         )}
         {messages.map((m, i) => (
           <div
             key={i}
-            className={`max-w-[88%] px-5 py-3 text-[13.5px] leading-relaxed whitespace-pre-wrap border ${
+            className={`max-w-[88%] px-5 py-3 text-[15px] leading-relaxed whitespace-pre-wrap border ${
               m.role === "user"
-                ? "self-end rounded-2xl rounded-br-sm bg-gold/10 border-gold/25 text-ink"
-                : "self-start rounded-2xl rounded-bl-sm bg-panel-strong border-white/5 text-ink/90"
+                ? "self-end rounded-2xl rounded-br-sm bg-gold/10 border-gold/25 text-ink/75"
+                : "self-start rounded-2xl rounded-bl-sm bg-panel-strong border-white/5 text-ink/75"
             }`}
           >
             {m.text || (m.hasCard ? "결과 카드를 생성했어요 →" : "")}
           </div>
         ))}
         {loading && (
-          <div className="max-w-[88%] self-start rounded-2xl rounded-bl-sm bg-panel-strong border border-white/5 px-5 py-3 text-[13.5px] text-muted">
+          <div className="max-w-[88%] self-start rounded-2xl rounded-bl-sm bg-panel-strong border border-white/5 px-5 py-3 text-[15px] text-muted">
             <span className="inline-flex gap-1">
               <span className="animate-pulse">·</span>
               <span className="animate-pulse [animation-delay:150ms]">·</span>
@@ -77,7 +77,7 @@ export function ChatPanel({
           </div>
         )}
         {error && (
-          <div className="max-w-[88%] self-start rounded-2xl border border-red-500/30 bg-red-500/10 text-red-300 px-5 py-3 text-[13.5px]">
+          <div className="max-w-[88%] self-start rounded-2xl border border-red-500/30 bg-red-500/10 text-red-300 px-5 py-3 text-[15px]">
             {error}
           </div>
         )}
