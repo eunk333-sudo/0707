@@ -29,18 +29,14 @@ export function mockRespond(messages: ChatMessage[]): string {
   const lastUser = userTexts[count - 1] ?? "";
 
   if (count === 1) {
-    return "좋아요, 감이 와요. 당신의 브랜드는 어떤 세계를 꿈꾸고 있나요?";
-  }
-
-  if (count === 2) {
     return "그 세계, 선명하게 그려지네요. 그 브랜드는 사람들에게 어떤 감정을 전달했으면 하나요? 예를 들어 편안함, 긴장감, 설렘 같은 것 중에 가까운 게 있을까요?";
   }
 
-  if (count === 3) {
+  if (count === 2) {
     return "그 감정, 좋네요. 마지막으로 하나만 더 물어볼게요 — 사람들이 이 브랜드를 떠올릴 때 가장 기억했으면 하는 장면이나 단어가 있나요?";
   }
 
-  if (count === 4) {
+  if (count === 3) {
     return [
       "충분히 그려졌어요. 지금까지 나눈 이야기를 브랜드 정의로 정리해볼게요.",
       "",
@@ -64,7 +60,7 @@ export function mockRespond(messages: ChatMessage[]): string {
 
   const chosenFormat = findChosenFormat(userTexts);
 
-  if (count === 5 && chosenFormat && VIDEO_FORMATS.includes(chosenFormat) && !hasAskedTool(assistantTexts)) {
+  if (count === 4 && chosenFormat && VIDEO_FORMATS.includes(chosenFormat) && !hasAskedTool(assistantTexts)) {
     return "영상으로 담아보면 좋겠네요. 원하시는 AI 영상 생성 에이전트가 있으신가요? 클링은 정적이고 사실적인 무드, 런웨이는 실험적이고 다이나믹한 무드, 시드니스는 부드럽고 감성적인 무드에 강점이 있어요. 잘 모르시면 '몰라요'라고 해주셔도 괜찮아요.";
   }
 

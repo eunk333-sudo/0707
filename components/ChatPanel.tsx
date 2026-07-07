@@ -51,7 +51,7 @@ export function ChatPanel({
       <div className="flex-1 overflow-y-auto px-6 py-6 flex flex-col gap-5">
         {messages.length === 0 && (
           <p className="font-serif italic text-[15px] text-muted leading-relaxed max-w-md">
-            어떤 브랜드를 만들고 싶나요?
+            당신의 브랜드는 어떤 세계를 꿈꾸고 있나요?
           </p>
         )}
         {messages.map((m, i) => (
