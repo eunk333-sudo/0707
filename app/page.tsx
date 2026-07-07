@@ -89,21 +89,8 @@ export default function Home() {
   const showFormatOptions = brandDefined && !formatChosen;
 
   return (
-    <div className="flex flex-col h-screen overflow-hidden">
-      <header className="relative shrink-0 border-b border-gold/15 px-6 py-8 text-center overflow-hidden">
-        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_60%_140%_at_50%_0%,rgba(203,161,53,0.10),transparent_70%)]" />
-        <p className="relative text-xs uppercase tracking-[0.55em] text-faint text-emboss-light">
-          Brand Narrative OS
-        </p>
-        <h1 className="relative mt-3 font-display text-5xl sm:text-6xl tracking-[0.28em] text-gold-bright [text-shadow:0_2px_0_rgba(0,0,0,0.55),0_1px_0_rgba(255,235,180,0.5),0_0_40px_rgba(232,199,102,0.4)]">
-          NARRA
-        </h1>
-        <p className="relative mt-3 font-serif italic text-xl text-muted tracking-wide text-emboss-light">
-          Every Brand Has Its Own World.
-        </p>
-      </header>
-
-      <main className="flex-1 min-h-0 grid grid-cols-1 md:grid-cols-[15%_70%_15%] divide-y md:divide-y-0 md:divide-x divide-gold/10">
+    <div className="h-screen overflow-hidden">
+      <main className="h-full grid grid-cols-1 md:grid-cols-[15%_70%_15%] divide-y md:divide-y-0 md:divide-x divide-gold/10">
         <div className="min-h-0">
           <ResultPanel cards={cards} savedKeys={savedKeys} onSave={handleSaveCard} />
         </div>
