@@ -102,7 +102,7 @@ export default function Home() {
         </p>
       </header>
 
-      <main className="flex-1 min-h-0 grid grid-cols-1 md:grid-cols-[1fr_1.1fr_360px] divide-y md:divide-y-0 md:divide-x divide-gold/10">
+      <main className="flex-1 min-h-0 grid grid-cols-1 md:grid-cols-[15%_70%_15%] divide-y md:divide-y-0 md:divide-x divide-gold/10">
         <div className="min-h-0">
           <ResultPanel cards={cards} savedKeys={savedKeys} onSave={handleSaveCard} />
         </div>
