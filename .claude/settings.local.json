@@ -1,0 +1,22 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(command -v nvm)",
+      "Read(//Users/eunkangdo/**)",
+      "Bash(command -v brew)",
+      "Bash(command -v fnm)",
+      "Bash(command -v volta)",
+      "Bash(sw_vers)",
+      "Bash(mkdir -p /private/tmp/claude-501/-Users-eunkangdo-Desktop-coding-0707/5bf1ae70-36e2-41fe-bb57-cd895642ba9a/scratchpad/tools)",
+      "Bash(curl -sL https://nodejs.org/dist/index.json -o index.json --max-time 15)",
+      "Bash(node -e \"1\")",
+      "Bash(python3 -c ' *)",
+      "Bash(curl -sL https://nodejs.org/dist/v24.18.0/node-v24.18.0-darwin-arm64.tar.gz -o node.tar.gz --max-time 120)",
+      "Bash(tar -xzf node.tar.gz)",
+      "Read(//usr/local/**)",
+      "Bash(mkdir -p /usr/local/bin)",
+      "Bash(mkdir -p /Users/eunkangdo/.narra-tools)",
+      "Bash(cp -R \"/private/tmp/claude-501/-Users-eunkangdo-Desktop-coding-0707/5bf1ae70-36e2-41fe-bb57-cd895642ba9a/scratchpad/tools/node-v24.18.0-darwin-arm64\" /Users/eunkangdo/.narra-tools/)"
+    ]
+  }
+}
