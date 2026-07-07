@@ -118,14 +118,22 @@ export function ChatPanel({
   }
 
   return (
-    <div className="flex flex-col h-full">
-      <div className="px-6 py-5 border-b border-gold/10">
+    <div className="relative flex flex-col h-full overflow-hidden">
+      <div
+        className="pointer-events-none absolute inset-0"
+        style={{
+          background:
+            "radial-gradient(circle at 50% 40%, #000000 0%, rgba(6,3,10,0.9) 20%, rgba(30,12,45,0.4) 45%, rgba(88,28,135,0.12) 65%, transparent 85%), radial-gradient(circle at 50% 40%, transparent 46%, rgba(232,199,102,0.1) 48%, transparent 51%)",
+        }}
+      />
+
+      <div className="relative px-6 py-5 border-b border-gold/10">
         <h2 className="text-base font-display font-bold uppercase tracking-[0.4em] text-gold/90 text-emboss">
           탐험
         </h2>
       </div>
 
-      <div className="flex-1 overflow-y-auto px-6 py-6 flex flex-col gap-5">
+      <div className="relative flex-1 overflow-y-auto px-6 py-6 flex flex-col gap-5">
         {messages.map((m, i) => (
           <div
             key={i}
@@ -157,7 +165,7 @@ export function ChatPanel({
       </div>
 
       {showFormatOptions && (
-        <div className="px-6 pb-3 flex flex-wrap gap-2">
+        <div className="relative px-6 pb-3 flex flex-wrap gap-2">
           {FORMAT_OPTIONS.map((f) => (
             <button
               key={f}
@@ -175,23 +183,23 @@ export function ChatPanel({
           e.preventDefault();
           onSend();
         }}
-        className="px-6 py-5 border-t border-gold/10 flex gap-2"
+        className="relative px-6 py-5 border-t border-gold/10 flex gap-2"
       >
         <input
           value={input}
           onChange={(e) => onInputChange(e.target.value)}
           placeholder="메시지를 입력하세요..."
           disabled={loading}
-          className={`flex-1 rounded-full border bg-white/[0.03] px-4 py-2.5 text-sm text-ink placeholder:text-faint focus:outline-none transition-shadow duration-300 disabled:opacity-50 ${
+          className={`flex-1 rounded-full border bg-white/[0.04] px-5 py-3.5 text-base text-ink placeholder:text-faint focus:outline-none transition-shadow duration-300 disabled:opacity-50 ${
             glowing
-              ? "border-gold/70 shadow-[0_0_8px_rgba(232,199,102,0.5),0_0_28px_rgba(232,199,102,0.3)]"
+              ? "border-gold/70 shadow-[0_0_10px_rgba(232,199,102,0.5),0_0_40px_rgba(232,199,102,0.35),0_0_80px_rgba(232,199,102,0.15)]"
               : "border-white/10 focus:border-gold/40 focus:ring-1 focus:ring-gold/30"
           }`}
         />
         <button
           type="submit"
           disabled={loading || !input.trim()}
-          className="rounded-full bg-gold text-void px-6 py-2.5 text-sm font-semibold tracking-wide disabled:bg-white/10 disabled:text-faint hover:bg-gold-bright transition-colors"
+          className="rounded-full bg-gold text-void px-7 py-3.5 text-sm font-semibold tracking-wide disabled:bg-white/10 disabled:text-faint hover:bg-gold-bright transition-colors"
         >
           보내기
         </button>
