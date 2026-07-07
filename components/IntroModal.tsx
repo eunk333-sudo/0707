@@ -54,9 +54,9 @@ export function IntroModal({ open, onClose }: { open: boolean; onClose: () => vo
 
           <button
             onClick={onClose}
-            className="mt-10 rounded-full bg-gold text-void px-8 py-3 text-sm font-semibold uppercase tracking-[0.15em] hover:bg-gold-bright transition-colors"
+            className="mt-10 rounded-full bg-gold text-void px-8 py-3 text-sm font-semibold tracking-[0.15em] hover:bg-gold-bright transition-colors"
           >
-            Close
+            탐험 속으로
           </button>
         </div>
       </div>
