@@ -20,7 +20,7 @@ export function NarraCardView({
       <div className="pointer-events-none absolute -top-px left-6 right-6 h-px bg-gradient-to-r from-transparent via-gold/60 to-transparent" />
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <span className="text-[10px] font-display uppercase tracking-[0.3em] text-gold">
+          <span className="text-[10px] font-semibold uppercase tracking-[0.08em] text-gold">
             {TYPE_LABEL[card.type]}
           </span>
           {card.format && (
@@ -39,13 +39,13 @@ export function NarraCardView({
           </button>
         )}
       </div>
-      <h3 className="font-display text-xl tracking-wide text-ink text-emboss-light">
+      <h3 className="font-semibold text-xl tracking-normal text-ink text-emboss-light">
         {card.title}
       </h3>
       <dl className="flex flex-col gap-4">
         {Object.entries(card.fields).map(([label, value]) => (
           <div key={label}>
-            <dt className="text-[11px] uppercase tracking-[0.25em] text-muted mb-1.5">
+            <dt className="text-[11px] uppercase tracking-[0.08em] text-muted mb-1.5">
               {label}
             </dt>
             <dd className="text-[15px] text-ink/75 leading-relaxed whitespace-pre-wrap">

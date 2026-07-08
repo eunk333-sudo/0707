@@ -11,9 +11,9 @@ const AXES: { key: keyof Omit<ConsistencyReport, "narrative" | "improvement" | "
 
 function BrandAlignment({ report }: { report: ConsistencyReport }) {
   return (
-    <div className="mt-4 rounded-lg border border-gold/15 bg-void/40 p-4 flex flex-col gap-3">
+    <div className="mt-3 rounded-lg border border-gold/15 bg-void/40 p-4 flex flex-col gap-3">
       <div>
-        <p className="text-[11px] uppercase tracking-[0.2em] text-gold/70">브랜드 정합성 검토(AI)</p>
+        <p className="text-[11px] uppercase tracking-[0.08em] text-gold/70">브랜드 정합성 검토(AI)</p>
         <div className="mt-1.5 flex items-center justify-between">
           <span className="text-[13px] text-ink/70">Narrative Match</span>
           <span className="font-display text-lg text-gold-bright">{report.narrative}%</span>
@@ -34,11 +34,11 @@ function BrandAlignment({ report }: { report: ConsistencyReport }) {
       </div>
       <div className="flex flex-col gap-2 border-t border-gold/10 pt-3">
         <div>
-          <p className="text-[10px] uppercase tracking-[0.15em] text-faint">개선 포인트</p>
+          <p className="text-[10px] uppercase tracking-[0.05em] text-faint">개선 포인트</p>
           <p className="mt-0.5 text-[12px] text-ink/75 leading-relaxed">{report.improvement}</p>
         </div>
         <div>
-          <p className="text-[10px] uppercase tracking-[0.15em] text-faint">수정 제안</p>
+          <p className="text-[10px] uppercase tracking-[0.05em] text-faint">수정 제안</p>
           <p className="mt-0.5 text-[12px] text-ink/75 leading-relaxed">{report.suggestion}</p>
         </div>
       </div>
@@ -46,12 +46,9 @@ function BrandAlignment({ report }: { report: ConsistencyReport }) {
   );
 }
 
-const CARD_HEIGHT = 100;
-const STACK_CAP = 3;
-const Y_STEP = 9;
-const ROTATE_STEP = 2.5;
-const SCALE_STEP = 0.02;
-const DEPTH_OPACITY = [1, 0.88, 0.76, 0.64];
+const COLLAPSED_HEIGHT = 56;
+const EXPANDED_MAX_HEIGHT = 440;
+const STACK_STEP = 28;
 
 export function SavedPanel({
   assets,
@@ -63,16 +60,15 @@ export function SavedPanel({
   const [liftedId, setLiftedId] = useState<string | null>(null);
 
   const displayList = assets.slice().reverse();
-  const selectedAsset = displayList.find((a) => a.id === liftedId);
 
   return (
     <div className="flex flex-col h-full">
       <div className="px-6 py-5 border-b border-gold/10">
-        <h2 className="text-base font-display font-bold uppercase tracking-[0.4em] text-gold/90 text-emboss">
+        <h2 className="text-base font-bold uppercase tracking-[0.1em] text-gold/90 text-emboss">
           아카이브 ({assets.length})
         </h2>
       </div>
-      <div className="flex-1 overflow-y-auto px-6 py-6 flex flex-col">
+      <div className="flex-1 overflow-y-auto px-6 py-6">
         {assets.length === 0 && (
           <p className="font-serif italic text-lg text-muted leading-relaxed">
             마음에 드는 결과 카드의 저장 버튼을 누르면 이곳에 쌓입니다.
@@ -80,60 +76,75 @@ export function SavedPanel({
         )}
         {assets.length > 0 && (
           <div
-            className="relative"
-            style={{ height: `${CARD_HEIGHT + STACK_CAP * Y_STEP + 28}px` }}
+            className="relative mt-4"
+            style={{ height: `${COLLAPSED_HEIGHT + (displayList.length - 1) * STACK_STEP + 20}px` }}
           >
             {displayList.map((asset, i) => {
               const lifted = asset.id === liftedId;
               const version = assets.findIndex((a) => a.id === asset.id) + 1;
-              const depth = Math.min(i, STACK_CAP);
-              const rotate = depth === 0 ? 0 : (i % 2 === 0 ? -1 : 1) * depth * ROTATE_STEP;
               return (
                 <div
                   key={asset.id}
                   onClick={() => setLiftedId(lifted ? null : asset.id)}
-                  className={`absolute left-[3%] top-0 h-[100px] w-[94%] cursor-pointer rounded-xl border p-3 flex flex-col gap-1 transition-all duration-300 ease-out ${
+                  className={`absolute inset-x-0 cursor-pointer overflow-hidden rounded-xl border transition-all duration-300 ease ${
                     lifted
-                      ? "border-gold/50 bg-panel-strong shadow-[0_20px_44px_-14px_rgba(203,161,53,0.5)]"
-                      : "border-gold/15 bg-panel-strong hover:border-gold/35 shadow-[0_6px_16px_-6px_rgba(0,0,0,0.5)]"
+                      ? "border-gold/40 bg-panel-strong shadow-[0_20px_44px_-14px_rgba(203,161,53,0.5)]"
+                      : "border-gold/15 bg-panel-strong hover:border-gold/30 shadow-[0_4px_10px_-6px_rgba(0,0,0,0.5)]"
                   }`}
                   style={{
-                    transform: lifted
-                      ? "translateY(-16px) rotate(0deg) scale(1.03)"
-                      : `translateY(${depth * Y_STEP}px) rotate(${rotate}deg) scale(${1 - depth * SCALE_STEP})`,
-                    opacity: lifted ? 1 : DEPTH_OPACITY[depth],
+                    top: `${i * STACK_STEP}px`,
+                    maxHeight: lifted ? `${EXPANDED_MAX_HEIGHT}px` : `${COLLAPSED_HEIGHT}px`,
+                    transform: lifted ? "translateY(-12px) scale(1.02)" : "translateY(0) scale(0.99)",
                     zIndex: lifted ? 100 : displayList.length - i,
                   }}
                 >
-                  <div className="flex items-start justify-between gap-2 min-w-0">
-                    <div className="min-w-0">
-                      <p className="text-[11px] font-display uppercase tracking-[0.2em] text-gold-bright">
-                        Version {version}
-                      </p>
-                      <p className="text-[15px] font-medium text-ink/75 mt-0.5 line-clamp-1">{asset.title}</p>
-                      <p className="text-[11px] text-faint mt-0.5 line-clamp-1">
-                        {asset.format ?? (asset.type === "brand_definition" ? "브랜드 정의" : "")}
+                  {lifted ? (
+                    <div className="px-4 py-3 flex flex-col gap-1">
+                      <div className="flex items-center justify-between gap-2">
+                        <span className="text-[10px] font-semibold uppercase tracking-[0.08em] text-gold-bright">
+                          Version {version}
+                        </span>
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            onRemove(asset.id);
+                          }}
+                          aria-label="삭제"
+                          className="text-faint hover:text-red-400 transition-colors text-sm leading-none"
+                        >
+                          ✕
+                        </button>
+                      </div>
+                      <p className="text-[15px] font-medium text-ink/85 leading-snug">{asset.title}</p>
+                      <p className="text-[10px] text-faint">
+                        {new Date(asset.savedAt).toLocaleString("ko-KR")}
                       </p>
                     </div>
-                    <button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        onRemove(asset.id);
-                      }}
-                      className="text-xs text-faint hover:text-red-400 transition-colors shrink-0"
-                    >
-                      삭제
-                    </button>
-                  </div>
-                  <p className="text-[11px] text-faint">
-                    {new Date(asset.savedAt).toLocaleString("ko-KR")}
-                  </p>
+                  ) : (
+                    <div className="h-[56px] px-4 flex items-center gap-2">
+                      <span className="text-[10px] font-semibold uppercase tracking-[0.08em] text-gold-bright shrink-0">
+                        Version {version}
+                      </span>
+                      <span className="h-3 w-px bg-gold/20 shrink-0" />
+                      <span className="text-[13px] font-medium text-ink/80 min-w-0 flex-1 truncate">
+                        {asset.title}
+                      </span>
+                      <span className="h-3 w-px bg-gold/20 shrink-0" />
+                      <span className="text-[10px] text-faint shrink-0 whitespace-nowrap">
+                        {new Date(asset.savedAt).toLocaleString("ko-KR")}
+                      </span>
+                    </div>
+                  )}
+                  {lifted && asset.consistencyReport && (
+                    <div className="px-4 pb-4">
+                      <BrandAlignment report={asset.consistencyReport} />
+                    </div>
+                  )}
                 </div>
               );
             })}
           </div>
         )}
-        {selectedAsset?.consistencyReport && <BrandAlignment report={selectedAsset.consistencyReport} />}
       </div>
     </div>
   );

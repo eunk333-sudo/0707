@@ -22,7 +22,7 @@ export function DiscoveryPanel({
   return (
     <div className="flex flex-col h-full">
       <div className="px-6 py-5 border-b border-gold/10">
-        <h2 className="text-base font-display font-bold uppercase tracking-[0.4em] text-gold/90 text-emboss">
+        <h2 className="text-base font-bold uppercase tracking-[0.1em] text-gold/90 text-emboss">
           발견
         </h2>
         <p className="mt-1 text-[11px] text-faint">AI가 지금까지 이해한 브랜드</p>

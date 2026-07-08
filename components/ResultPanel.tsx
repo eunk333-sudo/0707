@@ -24,7 +24,7 @@ export function ResultPanel({
             <button
               key={step.id}
               onClick={() => onSelectStep(step.id)}
-              className={`text-left rounded-lg px-3 py-2.5 text-[13px] tracking-wide transition-colors ${
+              className={`text-left rounded-lg px-3 py-2.5 text-[13px] tracking-normal transition-colors ${
                 active
                   ? "bg-gold/15 text-gold-bright border border-gold/30"
                   : done

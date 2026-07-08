@@ -64,7 +64,7 @@ export function ChatPanel({
     return (
       <div className="flex flex-col h-full">
         <div className="px-6 py-5 border-b border-gold/10">
-          <h2 className="text-base font-display font-bold uppercase tracking-[0.4em] text-gold/90 text-emboss">
+          <h2 className="text-base font-bold uppercase tracking-[0.1em] text-gold/90 text-emboss">
             탐험
           </h2>
         </div>
@@ -89,7 +89,7 @@ export function ChatPanel({
             </div>
 
             {currentStepLabel && (
-              <p className="text-[11px] uppercase tracking-[0.35em] text-gold/80 -mb-2">
+              <p className="text-[11px] uppercase tracking-[0.08em] text-gold/80 -mb-2">
                 {currentStepLabel}
               </p>
             )}
@@ -146,7 +146,7 @@ export function ChatPanel({
       />
 
       <div className="relative px-6 py-5 border-b border-gold/10">
-        <h2 className="text-base font-display font-bold uppercase tracking-[0.4em] text-gold/90 text-emboss">
+        <h2 className="text-base font-bold uppercase tracking-[0.1em] text-gold/90 text-emboss">
           탐험
         </h2>
       </div>
@@ -188,7 +188,7 @@ export function ChatPanel({
             <button
               key={f}
               onClick={() => onPickFormat(f)}
-              className="text-xs tracking-wide rounded-full border border-gold/25 text-gold-bright/90 px-3.5 py-1.5 hover:bg-gold/10 hover:border-gold/50 transition-colors"
+              className="text-xs tracking-normal rounded-full border border-gold/25 text-gold-bright/90 px-3.5 py-1.5 hover:bg-gold/10 hover:border-gold/50 transition-colors"
             >
               {f}
             </button>
@@ -198,7 +198,7 @@ export function ChatPanel({
 
       <div className="relative border-t border-gold/10">
         {currentStepLabel && (
-          <p className="px-6 pt-4 text-[11px] uppercase tracking-[0.35em] text-gold/80">
+          <p className="px-6 pt-4 text-[11px] uppercase tracking-[0.08em] text-gold/80">
             {currentStepLabel}
           </p>
         )}
@@ -223,7 +223,7 @@ export function ChatPanel({
         <button
           type="submit"
           disabled={loading || !input.trim()}
-          className="rounded-full bg-gold text-void px-7 py-3.5 text-sm font-semibold tracking-wide disabled:bg-white/10 disabled:text-faint hover:bg-gold-bright transition-colors"
+          className="rounded-full bg-gold text-void px-7 py-3.5 text-sm font-semibold tracking-normal disabled:bg-white/10 disabled:text-faint hover:bg-gold-bright transition-colors"
         >
           보내기
         </button>

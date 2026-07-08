@@ -22,7 +22,7 @@
   --color-gold-bright: var(--color-gold-bright);
   --color-panel: var(--color-panel);
   --color-panel-strong: var(--color-panel-strong);
-  --font-sans: "Pretendard Variable", Pretendard, -apple-system, sans-serif;
+  --font-sans: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
   --font-display: var(--font-display);
   --font-serif: var(--font-serif);
 }
