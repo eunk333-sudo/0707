@@ -83,7 +83,7 @@ export default function Home() {
     const card = cards[index];
     if (!card) return;
 
-    const consistencyReport = card.type === "result" ? scoreConsistency() : undefined;
+    const consistencyReport = scoreConsistency();
 
     savedAssetsStore.write([
       ...saved,
