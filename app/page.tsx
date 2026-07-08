@@ -1,14 +1,15 @@
 "use client";
 
 import { useState, useSyncExternalStore } from "react";
-import { AlignmentPanel } from "@/components/AlignmentPanel";
 import { ChatPanel, type DisplayMessage } from "@/components/ChatPanel";
+import { DiscoveryPanel } from "@/components/DiscoveryPanel";
 import { IntroModal } from "@/components/IntroModal";
 import { ResultPanel } from "@/components/ResultPanel";
 import { SavedPanel } from "@/components/SavedPanel";
+import { scoreConsistency } from "@/lib/consistency";
 import { extractCard } from "@/lib/parseCard";
 import { savedAssetsStore } from "@/lib/savedAssetsStore";
-import type { ChatMessage, NarraCard } from "@/lib/types";
+import { WORKFLOW_STEPS, type ChatMessage, type NarraCard, type WorkflowStepId } from "@/lib/types";
 
 export default function Home() {
   const [history, setHistory] = useState<ChatMessage[]>([]);
@@ -26,6 +27,7 @@ export default function Home() {
   const [brandDefined, setBrandDefined] = useState(false);
   const [formatChosen, setFormatChosen] = useState(false);
   const [introOpen, setIntroOpen] = useState(true);
+  const [activeStep, setActiveStep] = useState<WorkflowStepId>("explore");
 
   async function sendMessage(text: string) {
     if (!text.trim() || loading) return;
@@ -57,9 +59,12 @@ export default function Home() {
         setCards((c) => [...c, card]);
         if (card.type === "brand_definition") {
           setBrandDefined(true);
-        }
-        if (card.type === "result") {
+          setActiveStep("explore");
+        } else if (card.type === "creative_direction") {
+          setActiveStep("creative");
+        } else if (card.type === "result") {
           setFormatChosen(false);
+          setActiveStep("brief");
         }
       }
     } catch (e) {
@@ -77,9 +82,12 @@ export default function Home() {
   function handleSaveCard(index: number) {
     const card = cards[index];
     if (!card) return;
+
+    const consistencyReport = card.type === "result" ? scoreConsistency() : undefined;
+
     savedAssetsStore.write([
       ...saved,
-      { ...card, id: `${Date.now()}-${index}`, savedAt: Date.now() },
+      { ...card, id: `${Date.now()}-${index}`, savedAt: Date.now(), consistencyReport },
     ]);
     setSavedKeys((keys) => new Set(keys).add(index));
   }
@@ -90,12 +98,34 @@ export default function Home() {
 
   const showFormatOptions = brandDefined && !formatChosen;
 
+  const completedSteps = new Set(
+    WORKFLOW_STEPS.filter((s) => s.cardType && cards.some((c) => c.type === s.cardType)).map((s) => s.id),
+  );
+  const activeStepMeta = WORKFLOW_STEPS.find((s) => s.id === activeStep)!;
+  const activeCardIndex = activeStepMeta.cardType
+    ? (() => {
+        for (let i = cards.length - 1; i >= 0; i--) {
+          if (cards[i].type === activeStepMeta.cardType) return i;
+        }
+        return -1;
+      })()
+    : -1;
+  const activeCard = activeCardIndex >= 0 ? cards[activeCardIndex] : null;
+
   return (
     <div className="h-screen overflow-hidden">
       <IntroModal open={introOpen} onClose={() => setIntroOpen(false)} />
-      <main className="h-full grid grid-cols-1 md:grid-cols-[15%_70%_15%] divide-y md:divide-y-0 md:divide-x divide-gold/10">
+      <main className="h-full grid grid-cols-1 md:grid-cols-[160px_240px_1fr_280px] divide-y md:divide-y-0 md:divide-x divide-gold/10">
         <div className="min-h-0">
-          <ResultPanel cards={cards} savedKeys={savedKeys} onSave={handleSaveCard} />
+          <ResultPanel activeStep={activeStep} completedSteps={completedSteps} onSelectStep={setActiveStep} />
+        </div>
+        <div className="min-h-0">
+          <DiscoveryPanel
+            step={activeStep}
+            card={activeCard}
+            saved={activeCardIndex >= 0 && savedKeys.has(activeCardIndex)}
+            onSave={activeCardIndex >= 0 ? () => handleSaveCard(activeCardIndex) : undefined}
+          />
         </div>
         <div className="min-h-0 bg-panel/40">
           <ChatPanel
@@ -107,15 +137,11 @@ export default function Home() {
             showFormatOptions={showFormatOptions}
             onPickFormat={handlePickFormat}
             error={error}
+            currentStepLabel={activeStepMeta.label}
           />
         </div>
-        <div className="min-h-0 bg-panel/60 flex flex-col divide-y divide-gold/10">
-          <div className="flex-[3] min-h-0">
-            <SavedPanel assets={saved} onRemove={handleRemoveSaved} />
-          </div>
-          <div className="flex-[2] min-h-0">
-            <AlignmentPanel hasSaved={saved.length > 0} />
-          </div>
+        <div className="min-h-0 bg-panel/60">
+          <SavedPanel assets={saved} onRemove={handleRemoveSaved} />
         </div>
       </main>
     </div>

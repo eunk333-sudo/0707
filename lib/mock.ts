@@ -22,6 +22,43 @@ function hasAskedTool(assistantMessages: string[]): boolean {
   return assistantMessages.some((m) => m.includes("클링") && m.includes("영상 생성"));
 }
 
+// Keyword-triggered follow-ups so exploration questions feel like they react
+// to what the user just said, instead of a fixed script. A real LLM later
+// replaces this whole lookup — the turn-counting structure around it doesn't
+// need to change.
+const STAGE_1_BRANCHES: { keywords: string[]; followUp: string }[] = [
+  {
+    keywords: ["몽환", "꿈결", "몽글몽글", "하늘"],
+    followUp: "몽환적인 느낌, 좋아요. 따뜻한 분위기인가요? 아니면 신비로운 판타지인가요?",
+  },
+  {
+    keywords: ["웅장", "장엄", "압도"],
+    followUp: "웅장한 스케일이 느껴지네요. 위엄 있고 무거운 쪽인가요, 아니면 희망차고 벅찬 쪽인가요?",
+  },
+  {
+    keywords: ["잘 모르", "모르겠"],
+    followUp: "괜찮아요, 편하게 떠오르는 이미지나 단어부터 말씀해주셔도 돼요. 예를 들어 색이나 계절, 시간대 같은 거요.",
+  },
+];
+const STAGE_1_FALLBACK =
+  "그 세계, 선명하게 그려지네요. 그 브랜드는 사람들에게 어떤 감정을 전달했으면 하나요? 예를 들어 편안함, 긴장감, 설렘 같은 것 중에 가까운 게 있을까요?";
+
+const STAGE_2_BRANCHES: { keywords: string[]; followUp: string }[] = [
+  { keywords: ["따뜻"], followUp: "누가 가장 좋아했으면 하나요?" },
+  { keywords: ["판타지", "신비"], followUp: "그 세계에 살고 있는 사람들은 어떤 표정을 하고 있을까요?" },
+];
+const STAGE_2_FALLBACK =
+  "그 감정, 좋네요. 마지막으로 하나만 더 물어볼게요 — 사람들이 이 브랜드를 떠올릴 때 가장 기억했으면 하는 장면이나 단어가 있나요?";
+
+function pickFollowUp(
+  branches: { keywords: string[]; followUp: string }[],
+  userText: string,
+  fallback: string,
+): string {
+  const hit = branches.find((b) => b.keywords.some((k) => userText.includes(k)));
+  return hit ? hit.followUp : fallback;
+}
+
 export function mockRespond(messages: ChatMessage[]): string {
   const userTexts = messages.filter((m) => m.role === "user").map((m) => m.content);
   const assistantTexts = messages.filter((m) => m.role === "assistant").map((m) => m.content);
@@ -29,11 +66,11 @@ export function mockRespond(messages: ChatMessage[]): string {
   const lastUser = userTexts[count - 1] ?? "";
 
   if (count === 1) {
-    return "그 세계, 선명하게 그려지네요. 그 브랜드는 사람들에게 어떤 감정을 전달했으면 하나요? 예를 들어 편안함, 긴장감, 설렘 같은 것 중에 가까운 게 있을까요?";
+    return pickFollowUp(STAGE_1_BRANCHES, lastUser, STAGE_1_FALLBACK);
   }
 
   if (count === 2) {
-    return "그 감정, 좋네요. 마지막으로 하나만 더 물어볼게요 — 사람들이 이 브랜드를 떠올릴 때 가장 기억했으면 하는 장면이나 단어가 있나요?";
+    return pickFollowUp(STAGE_2_BRANCHES, lastUser, STAGE_2_FALLBACK);
   }
 
   if (count === 3) {
@@ -50,6 +87,7 @@ export function mockRespond(messages: ChatMessage[]): string {
           "톤앤무드": "깊은 우주의 어둠, 은하의 빛, 시네마틱 조명과 부드러운 블룸 효과",
           "브랜드 내러티브": `사용자가 남긴 힌트: "${lastUser}"를 중심으로, 무중력 속에서 손끝으로 별을 향해 뻗는 순간의 경외감을 담은 세계관 (mock 예시)`,
           "핵심 감정": "경외감과 초월감",
+          "타깃": `"${userTexts[1] ?? "새로운 감각을 찾는 사람들"}" 힌트를 바탕으로, 새로운 감각과 확장된 경험을 갈망하는 사람들 (mock 예시)`,
         },
       }),
       "```",

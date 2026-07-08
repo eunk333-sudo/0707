@@ -48,8 +48,7 @@ export function IntroModal({ open, onClose }: { open: boolean; onClose: () => vo
           </h2>
 
           <p className="mx-auto mt-8 max-w-md font-serif italic text-[26px] sm:text-[30px] leading-[1.35] text-ink text-emboss-light">
-            What <span className="text-gold-bright">world</span> do you want
-            your brand to be remembered as?
+            Are you ready to <span className="text-gold-bright">explore</span>?
           </p>
 
           <button

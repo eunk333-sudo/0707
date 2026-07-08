@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 export interface DisplayMessage {
   role: "user" | "assistant";
@@ -15,6 +15,13 @@ const FORMAT_OPTIONS = [
   "무드보드",
 ];
 
+const THINKING_STATES = [
+  "Understanding Brand...",
+  "Finding Narrative...",
+  "Connecting Emotion...",
+  "Building World...",
+];
+
 export function ChatPanel({
   messages,
   input,
@@ -24,6 +31,7 @@ export function ChatPanel({
   showFormatOptions,
   onPickFormat,
   error,
+  currentStepLabel,
 }: {
   messages: DisplayMessage[];
   input: string;
@@ -33,14 +41,24 @@ export function ChatPanel({
   showFormatOptions: boolean;
   onPickFormat: (format: string) => void;
   error: string | null;
+  currentStepLabel?: string;
 }) {
   const bottomRef = useRef<HTMLDivElement>(null);
   const isHero = messages.length === 0;
   const glowing = input.trim().length > 0;
+  const [thinkingIndex, setThinkingIndex] = useState(0);
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages, loading]);
+
+  useEffect(() => {
+    if (!loading) return;
+    const id = setInterval(() => {
+      setThinkingIndex((i) => (i + 1) % THINKING_STATES.length);
+    }, 900);
+    return () => clearInterval(id);
+  }, [loading]);
 
   if (isHero) {
     return (
@@ -70,8 +88,13 @@ export function ChatPanel({
               </h1>
             </div>
 
+            {currentStepLabel && (
+              <p className="text-[11px] uppercase tracking-[0.35em] text-gold/80 -mb-2">
+                {currentStepLabel}
+              </p>
+            )}
             <p className="font-serif italic text-xl text-ink text-center leading-relaxed">
-              당신의 브랜드는 어떤 세계를 꿈꾸고 있나요?
+              당신의 세계는 어떤 이야기로 기억되고 싶나요?
             </p>
 
             <form
@@ -84,7 +107,7 @@ export function ChatPanel({
               <input
                 value={input}
                 onChange={(e) => onInputChange(e.target.value)}
-                placeholder="메시지를 입력하세요..."
+                placeholder="대충 말해도 괜찮아요. NARRA가 함께 정리해드릴게요."
                 disabled={loading}
                 autoFocus
                 className={`w-full rounded-full border bg-white/[0.04] pl-6 pr-14 py-4 text-base text-ink placeholder:text-faint focus:outline-none transition-shadow duration-300 disabled:opacity-50 ${
@@ -102,11 +125,6 @@ export function ChatPanel({
                 →
               </button>
             </form>
-
-            <p className="text-[11px] text-ink/65 text-center leading-relaxed">
-              대충 말씀하셔도 괜찮아요. 예: &ldquo;깔끔하고 조용한 브랜드, 애플 같은 느낌,
-              무채색&rdquo;
-            </p>
 
             {error && (
               <p className="text-[13px] text-red-300 text-center">{error}</p>
@@ -153,7 +171,7 @@ export function ChatPanel({
               <span className="animate-pulse [animation-delay:150ms]">·</span>
               <span className="animate-pulse [animation-delay:300ms]">·</span>
             </span>{" "}
-            세계관을 그리는 중
+            {THINKING_STATES[thinkingIndex]}
           </div>
         )}
         {error && (
@@ -178,13 +196,19 @@ export function ChatPanel({
         </div>
       )}
 
-      <form
-        onSubmit={(e) => {
-          e.preventDefault();
-          onSend();
-        }}
-        className="relative px-6 py-5 border-t border-gold/10 flex gap-2"
-      >
+      <div className="relative border-t border-gold/10">
+        {currentStepLabel && (
+          <p className="px-6 pt-4 text-[11px] uppercase tracking-[0.35em] text-gold/80">
+            {currentStepLabel}
+          </p>
+        )}
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            onSend();
+          }}
+          className="px-6 pt-2 pb-5 flex gap-2"
+        >
         <input
           value={input}
           onChange={(e) => onInputChange(e.target.value)}
@@ -203,7 +227,8 @@ export function ChatPanel({
         >
           보내기
         </button>
-      </form>
+        </form>
+      </div>
     </div>
   );
 }
