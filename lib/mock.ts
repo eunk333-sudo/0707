@@ -45,11 +45,11 @@ export function mockRespond(messages: ChatMessage[]): string {
         type: "brand_definition",
         title: "브랜드 정의",
         fields: {
-          "핵심 키워드": "조용함, 무채색, 건축적, 절제된 여백 (mock 예시)",
-          "브랜드 성격": "차분하고 확신에 찬, 말을 아끼는 브랜드",
-          "톤앤무드": "미니멀, 낮은 채도, 자연광",
-          "브랜드 내러티브": `사용자가 남긴 힌트: "${lastUser}"를 중심으로, 불필요한 장식을 걷어내고 본질만 남기는 세계관 (mock 예시)`,
-          "핵심 감정": "안정감과 신뢰",
+          "핵심 키워드": "무중력, 광활한 우주, 경외감, 시네마틱 스케일 (mock 예시)",
+          "브랜드 성격": "압도적이면서도 섬세한, 경외감을 자아내는 브랜드",
+          "톤앤무드": "깊은 우주의 어둠, 은하의 빛, 시네마틱 조명과 부드러운 블룸 효과",
+          "브랜드 내러티브": `사용자가 남긴 힌트: "${lastUser}"를 중심으로, 무중력 속에서 손끝으로 별을 향해 뻗는 순간의 경외감을 담은 세계관 (mock 예시)`,
+          "핵심 감정": "경외감과 초월감",
         },
       }),
       "```",
@@ -67,14 +67,33 @@ export function mockRespond(messages: ChatMessage[]): string {
   const fields: Record<string, string> =
     chosenFormat && VIDEO_FORMATS.includes(chosenFormat)
       ? {
-          "시놉시스": "여백이 많은 공간, 한 사람이 천천히 움직이며 제품/브랜드와 조용히 마주하는 장면으로 시작해 절제된 카피 한 줄로 마무리 (mock 예시)",
-          "카피": "말보다 여백이 많은 브랜드. (mock 예시)",
-          "영상 프롬프트": "Minimal architectural space, soft natural light, muted grayscale palette, slow deliberate camera movement, single subject, negative space emphasis (mock 예시)",
+          "로그라인":
+            "중력을 벗어난 순간, 인류는 처음으로 자신의 손끝이 우주보다 크다는 것을 깨닫는다. (mock 예시)",
+          "샷 리스트":
+            "1. 익스트림 와이드샷 – 칠흑 같은 우주에 떠 있는 인물 실루엣, 로우 앵글\n2. 미디엄샷 – 무중력 속 서서히 회전하는 몸, 오빗 카메라 워킹\n3. 클로즈업 – 손끝이 은하를 향해 뻗는 순간, 슬로우 줌\n4. 익스트림 클로즈업 – 손가락과 은하 빛이 맞닿는 디테일샷\n5. 탑샷 – 거대한 지구가 프레임 상단을 압도하는 마무리 컷 (mock 예시)",
+          "카메라 & 렌즈":
+            "ARRI ALEXA 35 느낌, 아나모픽 렌즈, 얕은 심도와 부드러운 렌즈 플레어, 드론샷과 슬로우 줌을 병행 (mock 예시)",
+          "조명 & 색보정":
+            "림 라이트와 볼류메트릭 라이트로 은하의 빛을 강조, 골드 톤과 딥 블루 톤의 대비, 하이컨트라스트 시네마틱 룩 (mock 예시)",
+          "VFX & 미술":
+            "은하 주변으로 흩날리는 빛 입자 파티클, 우주복 표면의 질감 디테일, 성운이 홀로그램처럼 번지는 표현 (mock 예시)",
+          "사운드 & 음악":
+            "웅장한 오케스트라 스트링, Rise와 Whoosh 임팩트 사운드, 심장박동으로 긴장감 고조, BPM 68의 느린 빌드업 (mock 예시)",
+          "카피": "손끝에 닿은 은하. (mock 예시)",
+          "영상 프롬프트":
+            "Cinematic zero-gravity scene shot on ARRI ALEXA 35, anamorphic lens with shallow depth of field, young woman in profile slowly orbiting while reaching toward a glowing spiral galaxy, rim light and volumetric light, gold and deep-blue color grade, massive Earth looming above the horizon, light-particle VFX, orchestral swell with rise and whoosh sound design, IMAX aesthetic, photorealistic, 8K (mock 예시)",
         }
       : {
-          "시놉시스": `${chosenFormat ?? "선택한 포맷"}에 맞춘 절제된 구도의 비주얼 컨셉 (mock 예시)`,
-          "카피": "말보다 여백이 많은 브랜드. (mock 예시)",
-          "이미지 프롬프트": "Minimal architectural composition, muted grayscale tones, soft natural light, generous negative space (mock 예시)",
+          "컨셉 요약": `무중력 속에서 손끝으로 은하에 닿는 순간을 압도적 스케일로 포착한 ${chosenFormat ?? "선택한 포맷"} 비주얼 (mock 예시)`,
+          "카메라 & 구도":
+            "로우 앵글의 익스트림 와이드샷, 85mm 망원 렌즈, 얕은 심도로 인물과 은하만 선명하게 (mock 예시)",
+          "조명 & 색감":
+            "림 라이트와 골든아워 조명의 혼합, 골드 톤과 딥 블루 톤의 대비, 하이컨트라스트 시네마틱 룩 (mock 예시)",
+          "미술 & 텍스처":
+            "우주복 표면 질감, 성운이 홀로그램처럼 번지는 표현, 미니멀한 심볼로 배치된 브랜드 로고 (mock 예시)",
+          "카피": "손끝에 닿은 은하. (mock 예시)",
+          "이미지 프롬프트":
+            "Cinematic zero-gravity composition, low angle extreme wide shot, 85mm lens, shallow depth of field, figure reaching toward a glowing spiral galaxy, rim light mixed with golden-hour light, gold and deep-blue color grade, massive Earth looming above, photorealistic, 8K (mock 예시)",
         };
 
   return [
