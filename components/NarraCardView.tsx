@@ -33,9 +33,10 @@ export function NarraCardView({
           <button
             onClick={onSave}
             disabled={saved}
+            aria-label={saved ? "저장됨" : "저장"}
             className="text-xs font-medium rounded-md px-3.5 py-1.5 bg-gold text-void disabled:bg-white/10 disabled:text-faint hover:bg-gold-bright transition-colors"
           >
-            {saved ? "저장됨" : "저장"}
+            📌
           </button>
         )}
       </div>

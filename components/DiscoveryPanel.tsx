@@ -117,6 +117,42 @@ export function DiscoveryPanel({
             </div>
           </div>
         )}
+        {step === "brief" && showFormatOptions && (
+          <div className="space-y-4 text-sm text-faint opacity-90">
+            <p className="font-semibold">출력 형식을 선택해보세요.</p>
+            <div className="flex flex-wrap gap-2">
+              {FORMAT_OPTIONS.map((option) => (
+                <button
+                  key={option}
+                  type="button"
+                  onClick={() => onPickFormat?.(option)}
+                  className="rounded-full border border-white/10 bg-white/5 px-3 py-2 text-[13px] text-ink transition hover:border-gold/40 hover:bg-gold/10"
+                >
+                  {option}
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
+        {step === "ai_prompt" && (
+          <div className="flex flex-col gap-4 text-sm text-faint leading-relaxed">
+            <p>
+              A cinematic journey through an infinite universe where gravity no longer exists. A lone figure slowly drifts through deep cosmic darkness, surrounded by vast nebulae, distant galaxies, and countless shimmering stars. Every movement feels weightless, elegant, and almost sacred, evoking a profound sense of awe and wonder. The character gently reaches out toward a distant star, fingertips nearly touching its radiant light, creating an emotionally powerful moment of aspiration and transcendence.
+            </p>
+            <p>
+              The environment is immense and boundless, with layered galaxies, celestial dust, volumetric cosmic clouds, subtle particle fields, and soft gravitational distortions that enhance the scale of the universe. The atmosphere is silent yet emotionally overwhelming, balancing loneliness with hope.
+            </p>
+            <p>
+              Lighting is cinematic and ethereal, featuring soft bloom, delicate lens flares, volumetric light rays, subtle rim lighting, and natural reflections from surrounding starlight. Deep blacks contrast with luminous blues, violets, silvers, and warm stellar highlights, creating an elegant high-end science fiction aesthetic.
+            </p>
+            <p>
+              Camera language is slow, deliberate, and immersive. Begin with an ultra-wide establishing shot revealing the endless universe, followed by a graceful orbital camera movement. Slowly dolly forward into a medium shot before transitioning into an intimate close-up of the hand reaching toward the star. Finish with a majestic pull-back that reveals the overwhelming scale of space and the fragile beauty of the lone traveler.
+            </p>
+            <p>
+              Ultra-realistic cinematic rendering, IMAX scale, premium science-fiction visual language, emotional storytelling, elegant pacing, atmospheric depth, volumetric lighting, realistic zero-gravity physics, subtle slow motion, high dynamic range, soft film grain, Unreal Engine 5 quality, 8K, masterpiece, award-winning commercial film aesthetic.
+            </p>
+          </div>
+        )}
         {step !== "assets" && step !== "explore" && placeholder && (
           <>
             <p className="font-serif italic text-lg text-muted leading-relaxed">{placeholder}</p>
@@ -141,7 +177,7 @@ export function DiscoveryPanel({
             아직 이 단계의 결과가 없어요. 대화를 계속 이어가 보세요.
           </p>
         )}
-        {step !== "assets" && step !== "explore" && !placeholder && card && (
+        {step !== "assets" && step !== "explore" && step !== "ai_prompt" && !placeholder && card && (
           <NarraCardView card={card} onSave={onSave} saved={saved} />
         )}
       </div>

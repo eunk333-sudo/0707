@@ -37,13 +37,14 @@ export interface WorkflowStep {
   id: WorkflowStepId;
   label: string;
   cardType: NarraCard["type"] | null;
+  cardTitle?: string;
 }
 
 export const WORKFLOW_STEPS: WorkflowStep[] = [
   { id: "explore", label: "브랜드 탐험", cardType: "brand_definition" },
   { id: "creative", label: "크리에이티브 디렉션", cardType: "creative_direction" },
-  { id: "brief", label: "크리에이티브 브리프", cardType: "result" },
-  { id: "ai_prompt", label: "AI 프롬프트", cardType: "result" },
+  { id: "brief", label: "크리에이티브 브리프", cardType: "result", cardTitle: "Brief" },
+  { id: "ai_prompt", label: "AI 프롬프트", cardType: "result", cardTitle: "AI 프롬프트" },
   { id: "assets", label: "브랜드 자산", cardType: null },
   { id: "expansion", label: "브랜드 확장", cardType: null },
 ];

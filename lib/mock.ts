@@ -114,7 +114,7 @@ export function mockRespond(messages: ChatMessage[]): string {
     "```narra-card",
     JSON.stringify({
       type: "result",
-      title: `${chosenFormat ?? "결과"} 기획안`,
+      title: "Brief",
       format: chosenFormat ?? undefined,
       fields,
     }),

@@ -29,6 +29,16 @@ export default function Home() {
   const [introOpen, setIntroOpen] = useState(true);
   const [activeStep, setActiveStep] = useState<WorkflowStepId>("explore");
 
+  const AI_PROMPT_TEXT = `A cinematic journey through an infinite universe where gravity no longer exists. A lone figure slowly drifts through deep cosmic darkness, surrounded by vast nebulae, distant galaxies, and countless shimmering stars. Every movement feels weightless, elegant, and almost sacred, evoking a profound sense of awe and wonder. The character gently reaches out toward a distant star, fingertips nearly touching its radiant light, creating an emotionally powerful moment of aspiration and transcendence.
+
+The environment is immense and boundless, with layered galaxies, celestial dust, volumetric cosmic clouds, subtle particle fields, and soft gravitational distortions that enhance the scale of the universe. The atmosphere is silent yet emotionally overwhelming, balancing loneliness with hope.
+
+Lighting is cinematic and ethereal, featuring soft bloom, delicate lens flares, volumetric light rays, subtle rim lighting, and natural reflections from surrounding starlight. Deep blacks contrast with luminous blues, violets, silvers, and warm stellar highlights, creating an elegant high-end science fiction aesthetic.
+
+Camera language is slow, deliberate, and immersive. Begin with an ultra-wide establishing shot revealing the endless universe, followed by a graceful orbital camera movement. Slowly dolly forward into a medium shot before transitioning into an intimate close-up of the hand reaching toward the star. Finish with a majestic pull-back that reveals the overwhelming scale of the universe and the fragile beauty of the lone traveler.
+
+Ultra-realistic cinematic rendering, IMAX scale, premium science-fiction visual language, emotional storytelling, elegant pacing, atmospheric depth, volumetric lighting, realistic zero-gravity physics, subtle slow motion, high dynamic range, soft film grain, Unreal Engine 5 quality, 8K, masterpiece, award-winning commercial film aesthetic.`;
+
   async function sendMessage(text: string) {
     if (!text.trim() || loading) return;
     setError(null);
@@ -78,7 +88,7 @@ export default function Home() {
     sendMessage(`${format}로 만들어줘.`);
   }
 
-  function handleSelectStep(step: WorkflowStepId) {
+    function handleSelectStep(step: WorkflowStepId) {
     if (step === "ai_prompt") {
       const existingAiPrompt = cards.some((c) => c.type === "result" && c.title === "AI 프롬프트");
       if (!existingAiPrompt) {
@@ -86,30 +96,15 @@ export default function Home() {
           type: "result",
           title: "AI 프롬프트",
           fields: {
-            "AI Prompt": `A cinematic journey through an infinite universe where gravity no longer exists. A lone figure slowly drifts through deep cosmic darkness, surrounded by vast nebulae, distant galaxies, and countless shimmering stars. Every movement feels weightless, elegant, and almost sacred, evoking a profound sense of awe and wonder. The character gently reaches out toward a distant star, fingertips nearly touching its radiant light, creating an emotionally powerful moment of aspiration and transcendence.
-
-The environment is immense and boundless, with layered galaxies, celestial dust, volumetric cosmic clouds, subtle particle fields, and soft gravitational distortions that enhance the scale of the universe. The atmosphere is silent yet emotionally overwhelming, balancing loneliness with hope.
-
-Lighting is cinematic and ethereal, featuring soft bloom, delicate lens flares, volumetric light rays, subtle rim lighting, and natural reflections from surrounding starlight. Deep blacks contrast with luminous blues, violets, silvers, and warm stellar highlights, creating an elegant high-end science fiction aesthetic.
-
-Camera language is slow, deliberate, and immersive. Begin with an ultra-wide establishing shot revealing the endless universe, followed by a graceful orbital camera movement. Slowly dolly forward into a medium shot before transitioning into an intimate close-up of the hand reaching toward the star. Finish with a majestic pull-back that reveals the overwhelming scale of space and the fragile beauty of the lone traveler.
-Ultra-realistic cinematic rendering, IMAX scale, premium science-fiction visual language, emotional storytelling, elegant pacing, atmospheric depth, volumetric lighting, realistic zero-gravity physics, subtle slow motion, high dynamic range, soft film grain, Unreal Engine 5 quality, 8K, masterpiece, award-winning commercial film aesthetic.`,
+            "프롬프트": AI_PROMPT_TEXT,
           },
         };
         setCards((c) => [...c, aiPromptCard]);
-        setDisplay((d) => [
-          ...d,
-          {
-            role: "assistant",
-            text: "결과물이 생성되었습니다.\n**영화 트레일러, 애플 비전 프로 광고, 인터스텔라, 듄, Love Death + Robots** 계열의 시네마틱 무드까지 커버하는 프롬프트로 생성 해보았습니다.",
-          },
-        ]);
       }
     }
     setActiveStep(step);
   }
-
-  function handleSaveCard(index: number) {
+function handleSaveCard(index: number) {
     const card = cards[index];
     if (!card) return;
 
@@ -147,7 +142,7 @@ Ultra-realistic cinematic rendering, IMAX scale, premium science-fiction visual 
         type: "result",
         title: "AI 프롬프트",
         fields: {
-          "프롬프트": `Cinematic zero-gravity scene, ${brandTitle}, dramatic rim light, photorealistic (mock)`,
+          "프롬프트": `A cinematic journey through an infinite universe where gravity no longer exists. A lone figure slowly drifts through deep cosmic darkness, surrounded by vast nebulae, distant galaxies, and countless shimmering stars. Every movement feels weightless, elegant, and almost sacred, evoking a profound sense of awe and wonder. The character gently reaches out toward a distant star, fingertips nearly touching its radiant light, creating an emotionally powerful moment of aspiration and transcendence. The environment is immense and boundless, with layered galaxies, celestial dust, volumetric cosmic clouds, subtle particle fields, and soft gravitational distortions that enhance the scale of the universe. The atmosphere is silent yet emotionally overwhelming, balancing loneliness with hope. Lighting is cinematic and ethereal, featuring soft bloom, delicate lens flares, volumetric light rays, subtle rim lighting, and natural reflections from surrounding starlight. Deep blacks contrast with luminous blues, violets, silvers, and warm stellar highlights, creating an elegant high-end science fiction aesthetic. Camera language is slow, deliberate, and immersive. Begin with an ultra-wide establishing shot revealing the endless universe, followed by a graceful orbital camera movement. Slowly dolly forward into a medium shot before transitioning into an intimate close-up of the hand reaching toward the star. Finish with a majestic pull-back that reveals the overwhelming scale of space and the fragile beauty of the lone traveler. Ultra-realistic cinematic rendering, IMAX scale, premium science-fiction visual language, emotional storytelling, elegant pacing, atmospheric depth, volumetric lighting, realistic zero-gravity physics, subtle slow motion, high dynamic range, soft film grain, Unreal Engine 5 quality, 8K, masterpiece, award-winning commercial film aesthetic.`,
         },
       };
 
@@ -162,13 +157,21 @@ Ultra-realistic cinematic rendering, IMAX scale, premium science-fiction visual 
   const showFormatOptions = brandDefined && !formatChosen;
 
   const completedSteps = new Set(
-    WORKFLOW_STEPS.filter((s) => s.cardType && cards.some((c) => c.type === s.cardType)).map((s) => s.id),
+    WORKFLOW_STEPS.filter((s) =>
+      s.cardType
+        ? cards.some((c) => c.type === s.cardType && (!s.cardTitle || c.title === s.cardTitle))
+        : false,
+    ).map((s) => s.id),
   );
   const activeStepMeta = WORKFLOW_STEPS.find((s) => s.id === activeStep)!;
   const activeCardIndex = activeStepMeta.cardType
     ? (() => {
         for (let i = cards.length - 1; i >= 0; i--) {
-          if (cards[i].type === activeStepMeta.cardType) return i;
+          if (cards[i].type === activeStepMeta.cardType) {
+            if (!activeStepMeta.cardTitle || cards[i].title === activeStepMeta.cardTitle) {
+              return i;
+            }
+          }
         }
         return -1;
       })()

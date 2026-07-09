@@ -14,7 +14,7 @@ export function ResultPanel({
     <div className="flex flex-col h-full">
       <div className="px-6 py-5 border-b border-gold/10">
         <h2 className="text-base font-bold uppercase tracking-[0.1em] text-gold/90 text-emboss">
-          브랜드 탐험
+          탐험
         </h2>
       </div>
       <div className="flex-1 overflow-y-auto px-6 py-6">

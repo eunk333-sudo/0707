@@ -62,7 +62,7 @@ export function SavedPanel({
     <div className="flex flex-col h-full">
       <div className="px-6 py-5 border-b border-gold/10">
         <h2 className="text-base font-bold uppercase tracking-[0.1em] text-gold/90 text-emboss">
-          아카이브 ({assets.length})
+          인벤토리 ({assets.length})
         </h2>
       </div>
 
