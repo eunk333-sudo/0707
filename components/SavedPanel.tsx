@@ -55,6 +55,7 @@ export function SavedPanel({
 }) {
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [modalOpen, setModalOpen] = useState(false);
+  const [modalCopied, setModalCopied] = useState(false);
 
   const displayList = assets.slice().reverse();
   const selectedAsset = displayList.find((a) => a.id === selectedId) ?? null;
@@ -66,6 +67,16 @@ export function SavedPanel({
 
   function closeModal() {
     setModalOpen(false);
+  }
+
+  async function handleCopyModal() {
+    if (!selectedAsset) return;
+    const text = `${selectedAsset.title}\n\n${Object.entries(selectedAsset.fields)
+      .map(([k, v]) => `${k}: ${v}`)
+      .join("\n\n")}`;
+    await navigator.clipboard.writeText(text);
+    setModalCopied(true);
+    window.setTimeout(() => setModalCopied(false), 1600);
   }
 
   return (
@@ -159,13 +170,23 @@ export function SavedPanel({
                 <p className="text-[10px] uppercase tracking-[0.08em] text-gold/70">저장된 카드</p>
                 <h3 className="mt-2 text-2xl font-semibold text-ink">{selectedAsset.title}</h3>
               </div>
-              <button
-                type="button"
-                onClick={closeModal}
-                className="rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm text-ink/70 hover:bg-white/10 transition-colors"
-              >
-                닫기
-              </button>
+              <div className="flex items-center gap-2">
+                <button
+                  type="button"
+                  onClick={handleCopyModal}
+                  aria-label="카드 복사"
+                  className="rounded-md border border-white/10 bg-white/5 px-3 py-1.5 text-sm text-ink/70 hover:bg-white/10 transition-colors"
+                >
+                  {modalCopied ? "복사됨" : "복사"}
+                </button>
+                <button
+                  type="button"
+                  onClick={closeModal}
+                  className="rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm text-ink/70 hover:bg-white/10 transition-colors"
+                >
+                  닫기
+                </button>
+              </div>
             </div>
             <div className="mt-6 grid gap-5 sm:grid-cols-2">
               {Object.entries(selectedAsset.fields).map(([label, value]) => (
@@ -179,11 +200,7 @@ export function SavedPanel({
                 </div>
               ))}
             </div>
-            {selectedAsset.consistencyReport && (
-              <div className="mt-6 rounded-2xl border border-white/10 bg-black/40 p-4">
-                <BrandAlignmentBody report={selectedAsset.consistencyReport} />
-              </div>
-            )}
+            {/* Consistency report removed from modal — preserved in the panel footer only */}
           </div>
         </div>
       )}
