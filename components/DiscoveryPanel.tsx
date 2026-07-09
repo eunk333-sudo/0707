@@ -95,7 +95,23 @@ export function DiscoveryPanel({
           </p>
         )}
         {step !== "assets" && step !== "explore" && placeholder && (
-          <p className="font-serif italic text-lg text-muted leading-relaxed">{placeholder}</p>
+          <>
+            <p className="font-serif italic text-lg text-muted leading-relaxed">{placeholder}</p>
+            {step === "expansion" && (
+              <div className="mt-6 text-sm text-faint leading-relaxed opacity-70">
+                <p className="font-semibold mb-2">브랜치 NARRA ・ 킥오프 미팅</p>
+                <ul className="list-disc list-inside space-y-1">
+                  <li>왜 만드는가? (목적)</li>
+                  <li>누구에게 보여줄 것인가? (타깃)</li>
+                  <li>어떤 메시지를 전달할 것인가?</li>
+                  <li>어디에 사용할 것인가? (IR, 홈페이지, SNS, 전시, 공연, 버추얼PD등)</li>
+                  <li>제작 범위</li>
+                  <li>일정</li>
+                  <li>예산</li>
+                </ul>
+              </div>
+            )}
+          </>
         )}
         {step !== "assets" && step !== "explore" && !placeholder && !card && (
           <p className="font-serif italic text-lg text-muted leading-relaxed">
