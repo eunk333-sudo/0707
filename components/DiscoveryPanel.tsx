@@ -71,37 +71,19 @@ export function DiscoveryPanel({
             브랜드 탐험이 끝나면 다음 단계를 이어서 진행할 수 있어요.
           </p>
         )}
-        {step === "assets" && showFormatOptions && onPickFormat && (
+        {step === "assets" && (
           <div className="flex flex-col gap-3">
             <p className="font-serif italic text-lg text-muted leading-relaxed">
-              이 브랜드를 어떤 형태로 표현해볼까요?
+              브랜드 자산은 다음과 같이 정리됩니다.
             </p>
-            <div className="flex flex-wrap gap-2">
-              {FORMAT_OPTIONS.map((f) => (
-                <button
-                  key={f}
-                  onClick={() => onPickFormat(f)}
-                  className="text-xs tracking-normal rounded-full border border-gold/25 text-gold-bright/90 px-3.5 py-1.5 hover:bg-gold/10 hover:border-gold/50 transition-colors"
-                >
-                  {f}
-                </button>
-              ))}
+            <div className="mt-4 text-sm text-faint opacity-80">
+              <ul className="list-disc list-inside space-y-1">
+                <li>디지털 에셋</li>
+                <li>브랜드 Key Visual</li>
+                <li>브랜드 Moodboard</li>
+                <li>브랜드 Presentation Visual</li>
+              </ul>
             </div>
-          </div>
-        )}
-        {step === "assets" && !showFormatOptions && (
-          <p className="font-serif italic text-lg text-muted leading-relaxed">
-            브랜드 자산(이미지·영상) 생성은 다음 업데이트에서 만나보실 수 있어요.
-          </p>
-        )}
-        {step === "assets" && (
-          <div className="mt-4 text-sm text-faint opacity-80">
-            <ul className="list-disc list-inside space-y-1">
-              <li>디지털 에셋</li>
-              <li>브랜드 Key Visual</li>
-              <li>브랜드 Moodboard</li>
-              <li>브랜드 Presentation Visual</li>
-            </ul>
           </div>
         )}
         {step !== "assets" && step !== "explore" && placeholder && (
