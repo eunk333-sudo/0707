@@ -182,6 +182,21 @@ export function SavedPanel({
                 filter: 'blur(0.4px)'
               }}
             />
+            {/* colorful aurora / ring glow behind modal content */}
+            <div
+              className="pointer-events-none absolute inset-0 -z-10"
+              style={{
+                background:
+                  'radial-gradient(40% 40% at 50% 45%, rgba(232,199,102,0.12) 0%, rgba(232,199,102,0.06) 6%, transparent 18%), ' +
+                  'radial-gradient(60% 50% at 30% 60%, rgba(120,80,240,0.10) 0%, transparent 20%), ' +
+                  'radial-gradient(50% 40% at 70% 20%, rgba(80,200,255,0.08) 0%, transparent 18%), ' +
+                  'conic-gradient(from 220deg at 50% 50%, rgba(232,199,102,0.06), rgba(88,28,135,0.06), rgba(80,200,255,0.05), rgba(203,161,53,0.06))',
+                backgroundBlendMode: 'screen, screen, screen, overlay',
+                filter: 'blur(28px) saturate(120%)',
+                opacity: 0.9,
+                transform: 'translateZ(0)'
+              }}
+            />
             {/* film-grain overlay */}
             <div className="pointer-events-none absolute inset-0 opacity-5" style={{
               backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")`,
