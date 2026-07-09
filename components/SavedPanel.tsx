@@ -94,7 +94,7 @@ export function SavedPanel({
                 <div
                   key={asset.id}
                   onClick={() => openModal(asset.id)}
-                  className={`absolute inset-x-0 h-[56px] cursor-pointer overflow-hidden rounded-xl border px-4 flex items-center gap-2 transition-all duration-300 ease ${
+                  className={`absolute inset-x-0 h-[56px] cursor-pointer overflow-hidden rounded-xl border pl-4 pr-6 flex items-center gap-2 transition-all duration-300 ease ${
                     selected
                       ? "border-gold/45 bg-panel-strong shadow-[0_18px_40px_-14px_rgba(203,161,53,0.55)]"
                       : "border-gold/15 bg-panel-strong hover:border-gold/30 shadow-[0_4px_10px_-6px_rgba(0,0,0,0.5)]"
@@ -125,7 +125,7 @@ export function SavedPanel({
                       }
                     }}
                     aria-label="삭제"
-                    className="shrink-0 text-faint hover:text-red-400 transition-colors text-sm leading-none"
+                    className="shrink-0 text-faint hover:text-red-400 transition-colors text-sm leading-none p-2 rounded-md h-8 w-8 flex items-center justify-center hover:bg-white/5"
                   >
                     ✕
                   </button>
