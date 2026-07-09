@@ -164,11 +164,34 @@ export function SavedPanel({
 
       {modalOpen && selectedAsset && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 px-4 py-8">
-          <div className="w-full max-w-2xl rounded-3xl border border-gold/20 bg-panel-strong p-6 shadow-[0_0_60px_-20px_rgba(0,0,0,0.7)]">
+          <div className="w-full max-w-3xl relative rounded-3xl p-6" style={{
+            background: 'linear-gradient(180deg, rgba(8,6,10,0.96), rgba(4,3,5,0.94))',
+            border: '1px solid rgba(232,199,102,0.06)',
+            boxShadow: '0 30px 80px rgba(0,0,0,0.75), 0 8px 30px rgba(203,161,53,0.06)'
+          }}>
+            {/* subtle starfield overlay (night-sky) */}
+            <div
+              className="pointer-events-none absolute inset-0"
+              style={{
+                backgroundImage:
+                  'radial-gradient(rgba(232,199,102,0.9) 1px, transparent 1px), radial-gradient(rgba(255,255,255,0.85) 1px, transparent 1px)',
+                backgroundSize: '180px 180px, 60px 60px',
+                backgroundPosition: '10px 20px, 40px 80px',
+                opacity: 0.12,
+                mixBlendMode: 'screen',
+                filter: 'blur(0.4px)'
+              }}
+            />
+            {/* film-grain overlay */}
+            <div className="pointer-events-none absolute inset-0 opacity-5" style={{
+              backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")`,
+              mixBlendMode: 'overlay'
+            }} />
             <div className="flex items-center justify-between gap-4">
               <div>
                 <p className="text-[10px] uppercase tracking-[0.08em] text-gold/70">저장된 카드</p>
-                <h3 className="mt-2 text-2xl font-semibold text-ink">{selectedAsset.title}</h3>
+                <h3 className="mt-2 text-3xl font-semibold text-ink tracking-wide text-emboss-light">{selectedAsset.title}</h3>
+                <div className="mt-1 h-0.5 w-24 rounded-full bg-gradient-to-r from-transparent via-gold/60 to-transparent" />
               </div>
               <div className="flex items-center gap-2">
                 <button
@@ -190,15 +213,11 @@ export function SavedPanel({
             </div>
             <div className="mt-6 grid gap-5 sm:grid-cols-2">
               {Object.entries(selectedAsset.fields).map(([label, value]) => (
-                <div
-                  key={label}
-                  className="rounded-2xl border border-white/10 p-4"
-                  style={{ background: 'rgba(0,0,0,0.95)' }}
-                >
+                <div key={label} className="rounded-2xl border border-white/6 p-4" style={{ background: 'rgba(0,0,0,0.95)' }}>
                   <p className="text-[11px] uppercase tracking-[0.08em] text-faint">
                     {label}
                   </p>
-                  <p className="mt-2 text-[15px] leading-relaxed text-ink/80 whitespace-pre-wrap">
+                  <p className="mt-2 text-[15px] leading-relaxed text-ink/95 whitespace-pre-wrap">
                     {value}
                   </p>
                 </div>
