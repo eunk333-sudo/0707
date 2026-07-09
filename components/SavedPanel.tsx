@@ -54,9 +54,19 @@ export function SavedPanel({
   onRemove: (id: string) => void;
 }) {
   const [selectedId, setSelectedId] = useState<string | null>(null);
+  const [modalOpen, setModalOpen] = useState(false);
 
   const displayList = assets.slice().reverse();
   const selectedAsset = displayList.find((a) => a.id === selectedId) ?? null;
+
+  function openModal(assetId: string) {
+    setSelectedId(assetId);
+    setModalOpen(true);
+  }
+
+  function closeModal() {
+    setModalOpen(false);
+  }
 
   return (
     <div className="flex flex-col h-full">
@@ -83,7 +93,7 @@ export function SavedPanel({
               return (
                 <div
                   key={asset.id}
-                  onClick={() => setSelectedId(selected ? null : asset.id)}
+                  onClick={() => openModal(asset.id)}
                   className={`absolute inset-x-0 h-[56px] cursor-pointer overflow-hidden rounded-xl border px-4 flex items-center gap-2 transition-all duration-300 ease ${
                     selected
                       ? "border-gold/45 bg-panel-strong shadow-[0_18px_40px_-14px_rgba(203,161,53,0.55)]"
@@ -106,19 +116,19 @@ export function SavedPanel({
                   <span className="text-[10px] text-faint shrink-0 whitespace-nowrap">
                     {new Date(asset.savedAt).toLocaleString("ko-KR")}
                   </span>
-                  {selected && (
-                    <button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        onRemove(asset.id);
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      onRemove(asset.id);
+                      if (selectedId === asset.id) {
                         setSelectedId(null);
-                      }}
-                      aria-label="삭제"
-                      className="shrink-0 text-faint hover:text-red-400 transition-colors text-sm leading-none"
-                    >
-                      ✕
-                    </button>
-                  )}
+                      }
+                    }}
+                    aria-label="삭제"
+                    className="shrink-0 text-faint hover:text-red-400 transition-colors text-sm leading-none"
+                  >
+                    ✕
+                  </button>
                 </div>
               );
             })}
@@ -140,6 +150,43 @@ export function SavedPanel({
           )}
         </div>
       </div>
+
+      {modalOpen && selectedAsset && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 px-4 py-8">
+          <div className="w-full max-w-2xl rounded-3xl border border-gold/20 bg-panel-strong p-6 shadow-[0_0_60px_-20px_rgba(0,0,0,0.7)]">
+            <div className="flex items-center justify-between gap-4">
+              <div>
+                <p className="text-[10px] uppercase tracking-[0.08em] text-gold/70">저장된 카드</p>
+                <h3 className="mt-2 text-2xl font-semibold text-ink">{selectedAsset.title}</h3>
+              </div>
+              <button
+                type="button"
+                onClick={closeModal}
+                className="rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm text-ink/70 hover:bg-white/10 transition-colors"
+              >
+                닫기
+              </button>
+            </div>
+            <div className="mt-6 grid gap-5 sm:grid-cols-2">
+              {Object.entries(selectedAsset.fields).map(([label, value]) => (
+                <div key={label} className="rounded-2xl border border-white/10 bg-black/40 p-4">
+                  <p className="text-[11px] uppercase tracking-[0.08em] text-faint">
+                    {label}
+                  </p>
+                  <p className="mt-2 text-[15px] leading-relaxed text-ink/80 whitespace-pre-wrap">
+                    {value}
+                  </p>
+                </div>
+              ))}
+            </div>
+            {selectedAsset.consistencyReport && (
+              <div className="mt-6 rounded-2xl border border-white/10 bg-black/40 p-4">
+                <BrandAlignmentBody report={selectedAsset.consistencyReport} />
+              </div>
+            )}
+          </div>
+        </div>
+      )}
     </div>
   );
 }
