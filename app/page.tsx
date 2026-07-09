@@ -89,6 +89,39 @@ export default function Home() {
       { ...card, id: `${Date.now()}-${index}`, savedAt: Date.now(), consistencyReport },
     ]);
     setSavedKeys((keys) => new Set(keys).add(index));
+    // If user saved the brand definition, auto-generate the discovery cards (mock)
+    if (card.type === "brand_definition") {
+      const brandTitle = card.title || "브랜드 정의";
+      const creative: NarraCard = {
+        type: "creative_direction",
+        title: "크리에이티브 디렉션",
+        fields: {
+          "핵심 컨셉": `${brandTitle}을(를) 시네마틱하고 서사적으로 표현`,
+          "톤 앤 무드": "경외감 · 고요함 · 골드 포인트",
+          "핵심 메시지": "손끝에 닿은 은하",
+        },
+      };
+
+      const brief: NarraCard = {
+        type: "result",
+        title: "Brief",
+        fields: {
+          "컨셉 요약": `${brandTitle}의 시네마틱 브리프 (mock)`,
+          "목표": "브랜드 인지도 확장 및 감성적 연결",
+          "핵심 산출물": "브랜드 필름, 키비주얼, 무드보드",
+        },
+      };
+
+      const aiPrompt: NarraCard = {
+        type: "result",
+        title: "AI 프롬프트",
+        fields: {
+          "프롬프트": `Cinematic zero-gravity scene, ${brandTitle}, dramatic rim light, photorealistic (mock)`,
+        },
+      };
+
+      setCards((c) => [...c, creative, brief, aiPrompt]);
+    }
   }
 
   function handleRemoveSaved(id: string) {
@@ -125,7 +158,7 @@ export default function Home() {
       <div className="shrink-0 px-6 py-2 border-b border-gold/10 bg-void/40">
         <p className="text-[12px] text-gold/70">최은강 모험가님</p>
       </div>
-      <main className="flex-1 min-h-0 grid grid-cols-1 md:grid-cols-[240px_160px_1fr_280px] divide-y md:divide-y-0 md:divide-x divide-gold/10">
+      <main className="flex-1 min-h-0 grid grid-cols-1 md:grid-cols-[240px_240px_1fr_280px] divide-y md:divide-y-0 md:divide-x divide-gold/10">
         <div className="min-h-0">
           <ResultPanel
             card={brandCard}
