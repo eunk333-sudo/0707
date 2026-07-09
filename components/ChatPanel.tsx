@@ -6,15 +6,6 @@ export interface DisplayMessage {
   hasCard?: boolean;
 }
 
-const FORMAT_OPTIONS = [
-  "브랜드필름",
-  "광고",
-  "키비주얼",
-  "홈페이지 히어로 이미지",
-  "SNS 콘텐츠",
-  "무드보드",
-];
-
 const THINKING_STATES = [
   "Understanding Brand...",
   "Finding Narrative...",
@@ -28,8 +19,6 @@ export function ChatPanel({
   onInputChange,
   onSend,
   loading,
-  showFormatOptions,
-  onPickFormat,
   error,
   currentStepLabel,
 }: {
@@ -38,12 +27,11 @@ export function ChatPanel({
   onInputChange: (v: string) => void;
   onSend: () => void;
   loading: boolean;
-  showFormatOptions: boolean;
-  onPickFormat: (format: string) => void;
   error: string | null;
   currentStepLabel?: string;
 }) {
   const bottomRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
   const isHero = messages.length === 0;
   const glowing = input.trim().length > 0;
   const [thinkingIndex, setThinkingIndex] = useState(0);
@@ -51,6 +39,12 @@ export function ChatPanel({
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages, loading]);
+
+  useEffect(() => {
+    if (!loading) {
+      inputRef.current?.focus();
+    }
+  }, [loading]);
 
   useEffect(() => {
     if (!loading) return;
@@ -105,6 +99,7 @@ export function ChatPanel({
               className="relative w-full"
             >
               <input
+                ref={inputRef}
                 value={input}
                 onChange={(e) => onInputChange(e.target.value)}
                 placeholder="대충 말해도 괜찮아요. NARRA가 함께 정리해드릴게요."
@@ -182,20 +177,6 @@ export function ChatPanel({
         <div ref={bottomRef} />
       </div>
 
-      {showFormatOptions && (
-        <div className="relative px-6 pb-3 flex flex-wrap gap-2">
-          {FORMAT_OPTIONS.map((f) => (
-            <button
-              key={f}
-              onClick={() => onPickFormat(f)}
-              className="text-xs tracking-normal rounded-full border border-gold/25 text-gold-bright/90 px-3.5 py-1.5 hover:bg-gold/10 hover:border-gold/50 transition-colors"
-            >
-              {f}
-            </button>
-          ))}
-        </div>
-      )}
-
       <div className="relative border-t border-gold/10">
         {currentStepLabel && (
           <p className="px-6 pt-4 text-[11px] uppercase tracking-[0.08em] text-gold/80">
@@ -210,6 +191,7 @@ export function ChatPanel({
           className="px-6 pt-2 pb-5 flex gap-2"
         >
         <input
+          ref={inputRef}
           value={input}
           onChange={(e) => onInputChange(e.target.value)}
           placeholder="메시지를 입력하세요..."

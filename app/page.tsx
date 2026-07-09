@@ -59,7 +59,6 @@ export default function Home() {
         setCards((c) => [...c, card]);
         if (card.type === "brand_definition") {
           setBrandDefined(true);
-          setActiveStep("explore");
         } else if (card.type === "creative_direction") {
           setActiveStep("creative");
         } else if (card.type === "result") {
@@ -112,19 +111,38 @@ export default function Home() {
     : -1;
   const activeCard = activeCardIndex >= 0 ? cards[activeCardIndex] : null;
 
+  const brandCardIndex = (() => {
+    for (let i = cards.length - 1; i >= 0; i--) {
+      if (cards[i].type === "brand_definition") return i;
+    }
+    return -1;
+  })();
+  const brandCard = brandCardIndex >= 0 ? cards[brandCardIndex] : null;
+
   return (
-    <div className="h-screen overflow-hidden">
+    <div className="h-screen overflow-hidden flex flex-col">
       <IntroModal open={introOpen} onClose={() => setIntroOpen(false)} />
-      <main className="h-full grid grid-cols-1 md:grid-cols-[160px_240px_1fr_280px] divide-y md:divide-y-0 md:divide-x divide-gold/10">
+      <div className="shrink-0 px-6 py-2 border-b border-gold/10 bg-void/40">
+        <p className="text-[12px] text-gold/70">최은강 모험가님</p>
+      </div>
+      <main className="flex-1 min-h-0 grid grid-cols-1 md:grid-cols-[240px_160px_1fr_280px] divide-y md:divide-y-0 md:divide-x divide-gold/10">
         <div className="min-h-0">
-          <ResultPanel activeStep={activeStep} completedSteps={completedSteps} onSelectStep={setActiveStep} />
+          <ResultPanel
+            card={brandCard}
+            saved={brandCardIndex >= 0 && savedKeys.has(brandCardIndex)}
+            onSave={brandCardIndex >= 0 ? () => handleSaveCard(brandCardIndex) : undefined}
+          />
         </div>
         <div className="min-h-0">
           <DiscoveryPanel
             step={activeStep}
+            completedSteps={completedSteps}
+            onSelectStep={setActiveStep}
             card={activeCard}
             saved={activeCardIndex >= 0 && savedKeys.has(activeCardIndex)}
             onSave={activeCardIndex >= 0 ? () => handleSaveCard(activeCardIndex) : undefined}
+            showFormatOptions={showFormatOptions}
+            onPickFormat={handlePickFormat}
           />
         </div>
         <div className="min-h-0 bg-panel/40">
@@ -134,8 +152,6 @@ export default function Home() {
             onInputChange={setInput}
             onSend={() => sendMessage(input)}
             loading={loading}
-            showFormatOptions={showFormatOptions}
-            onPickFormat={handlePickFormat}
             error={error}
             currentStepLabel={activeStepMeta.label}
           />
