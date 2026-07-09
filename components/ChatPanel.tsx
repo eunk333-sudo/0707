@@ -59,7 +59,7 @@ export function ChatPanel({
       <div className="flex flex-col h-full">
         <div className="px-6 py-5 border-b border-gold/10">
           <h2 className="text-base font-bold uppercase tracking-[0.1em] text-gold/90 text-emboss">
-            탐험
+            여정
           </h2>
         </div>
 
@@ -142,7 +142,7 @@ export function ChatPanel({
 
       <div className="relative px-6 py-5 border-b border-gold/10">
         <h2 className="text-base font-bold uppercase tracking-[0.1em] text-gold/90 text-emboss">
-          탐험
+          여정
         </h2>
       </div>
 
