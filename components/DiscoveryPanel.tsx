@@ -77,11 +77,42 @@ export function DiscoveryPanel({
               브랜드 자산은 다음과 같이 정리됩니다.
             </p>
             <div className="mt-4 text-sm text-faint opacity-80">
-              <ul className="list-disc list-inside space-y-1">
-                <li>디지털 에셋</li>
-                <li>브랜드 Key Visual</li>
-                <li>브랜드 Moodboard</li>
-                <li>브랜드 Presentation Visual</li>
+              <ul className="list-disc list-inside space-y-4">
+                <li>
+                  <span className="font-semibold">디지털 에셋</span>
+                  <ul className="mt-2 list-disc list-inside pl-4 space-y-1">
+                    <li>포토카드</li>
+                    <li>로고 (PNG) (SVG)</li>
+                    <li>SNS 프로필 이미지</li>
+                    <li>스티커</li>
+                  </ul>
+                </li>
+                <li>
+                  <span className="font-semibold">브랜드 Key Visual</span>
+                  <ul className="mt-2 list-disc list-inside pl-4 space-y-1">
+                    <li>메인 Key Visual</li>
+                    <li>캠페인 Key Visual</li>
+                    <li>SUBJECT Key Visual</li>
+                    <li>시즌 Key Visual</li>
+                  </ul>
+                </li>
+                <li>
+                  <span className="font-semibold">브랜드 Moodboard</span>
+                  <ul className="mt-2 list-disc list-inside pl-4 space-y-1">
+                    <li>레퍼런스 이미지</li>
+                    <li>컬러 팔레트</li>
+                    <li>조명/아트 스타일</li>
+                    <li>텍스처</li>
+                  </ul>
+                </li>
+                <li>
+                  <span className="font-semibold">브랜드 Presentation Visual</span>
+                  <ul className="mt-2 list-disc list-inside pl-4 space-y-1">
+                    <li>IR Deck 비주얼</li>
+                    <li>인포그래픽</li>
+                    <li>프로세스 다이어그램</li>
+                  </ul>
+                </li>
               </ul>
             </div>
           </div>
