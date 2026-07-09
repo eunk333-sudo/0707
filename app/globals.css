@@ -8,8 +8,9 @@
   --color-faint: #6b6558;
   --color-gold: #cba135;
   --color-gold-bright: #e8c766;
-  --color-panel: rgba(255, 255, 255, 0.035);
-  --color-panel-strong: rgba(255, 255, 255, 0.06);
+  /* Increased opacity for better text contrast in panels/modal */
+  --color-panel: rgba(255, 255, 255, 0.08);
+  --color-panel-strong: rgba(255, 255, 255, 0.14);
 }
 
 @theme inline {
