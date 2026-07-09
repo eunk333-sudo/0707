@@ -100,6 +100,13 @@ Ultra-realistic cinematic rendering, IMAX scale, premium science-fiction visual 
           },
         };
         setCards((c) => [...c, aiPromptCard]);
+        setDisplay((d) => [
+          ...d,
+          {
+            role: "assistant",
+            text: "결과물이 생성되었습니다.\n**영화 트레일러, 애플 비전 프로 광고, 인터스텔라, 듄, Love Death + Robots** 계열의 시네마틱 무드까지 커버하는 프롬프트로 생성 해보았습니다.",
+          },
+        ]);
       }
     }
     setActiveStep(step);
