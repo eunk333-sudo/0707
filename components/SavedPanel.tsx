@@ -190,7 +190,11 @@ export function SavedPanel({
             </div>
             <div className="mt-6 grid gap-5 sm:grid-cols-2">
               {Object.entries(selectedAsset.fields).map(([label, value]) => (
-                <div key={label} className="rounded-2xl border border-white/10 bg-black/40 p-4">
+                <div
+                  key={label}
+                  className="rounded-2xl border border-white/10 p-4"
+                  style={{ background: 'rgba(0,0,0,0.95)' }}
+                >
                   <p className="text-[11px] uppercase tracking-[0.08em] text-faint">
                     {label}
                   </p>
