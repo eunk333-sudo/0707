@@ -9,10 +9,7 @@ const PLACEHOLDER_STEPS: Record<string, string> = {
 
 const FORMAT_OPTIONS = [
   "브랜드필름",
-  "광고",
   "키비주얼",
-  "홈페이지 히어로 이미지",
-  "SNS 콘텐츠",
   "무드보드",
 ];
 
