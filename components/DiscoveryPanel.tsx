@@ -94,6 +94,16 @@ export function DiscoveryPanel({
             브랜드 자산(이미지·영상) 생성은 다음 업데이트에서 만나보실 수 있어요.
           </p>
         )}
+        {step === "assets" && (
+          <div className="mt-4 text-sm text-faint opacity-80">
+            <ul className="list-disc list-inside space-y-1">
+              <li>디지털 에셋</li>
+              <li>브랜드 Key Visual</li>
+              <li>브랜드 Moodboard</li>
+              <li>브랜드 Presentation Visual</li>
+            </ul>
+          </div>
+        )}
         {step !== "assets" && step !== "explore" && placeholder && (
           <>
             <p className="font-serif italic text-lg text-muted leading-relaxed">{placeholder}</p>
