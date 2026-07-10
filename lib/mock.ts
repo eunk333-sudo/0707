@@ -32,11 +32,45 @@ const EXPLORATION_QUESTIONS = [
   "좋습니다. 마지막으로 사람들이 이 세계를 떠올릴 때 가장 기억했으면 하는 장면을 자유롭게 말씀해주세요.",
 ];
 
+function buildSceneKeywords(text: string) {
+  const parts = text
+    .split(/[,\.\/，。、\s]+/)
+    .filter(Boolean)
+    .map((word) => word.replace(/[^가-힣a-zA-Z0-9]+/g, ""));
+  return parts.slice(0, 4).join(", ") || "서정적, 몰입감, 서사적, 감성적";
+}
+
+function createBrandDefinitionMock(lastUser: string) {
+  const cleaned = lastUser.trim();
+  const keywords = buildSceneKeywords(cleaned);
+  return [
+    "당신의 브랜드 DNA가 생성되었습니다.",
+    "",
+    "```narra-card",
+    JSON.stringify({
+      type: "brand_definition",
+      title: "브랜드 정의",
+      fields: {
+        "핵심 키워드": `${keywords} (mock 예시)`,
+        "브랜드 성격": "감성적이고 영화적인, 몰입감을 주는 브랜드",
+        "Tone & Manner": "드라마틱한 조명, 고요하면서도 강렬한 무드, 섬세한 디테일",
+        "브랜드 내러티브": `사용자가 말한 장면 "${cleaned}"을 기반으로 한 서사적 브랜드 이야기 (mock 예시)`,
+        "핵심 감정": "경외감, 설렘, 여운",
+      },
+    }),
+    "```",
+  ].join("\n");
+}
+
 export function mockRespond(messages: ChatMessage[]): string {
   const userTexts = messages.filter((m) => m.role === "user").map((m) => m.content);
   const assistantTexts = messages.filter((m) => m.role === "assistant").map((m) => m.content);
   const count = userTexts.length;
   const lastUser = userTexts[count - 1] ?? "";
+
+  if (count === 1) {
+    return createBrandDefinitionMock(lastUser);
+  }
 
   if (count >= 1 && count <= EXPLORATION_QUESTIONS.length) {
     return EXPLORATION_QUESTIONS[count - 1];
@@ -44,7 +78,8 @@ export function mockRespond(messages: ChatMessage[]): string {
 
   if (count === EXPLORATION_QUESTIONS.length + 1) {
     return [
-      "당신이 찾아낸 세계의 \"브랜드 디렉션\"이 발견되었습니다.",
+      "당신의 세계가 첫번째 정의를 가졌습니다.",
+      "당신이 찾아낸 세계의 \"크리에이티브 디렉션\"이 발견되었습니다.",
       "",
       "```narra-card",
       JSON.stringify({

@@ -5,7 +5,7 @@ import type { NarraCard } from "@/lib/types";
 
 const TYPE_LABEL: Record<NarraCard["type"], string> = {
   brand_definition: "브랜드 정의",
-  creative_direction: "크리에이티브 방향",
+  creative_direction: "크리에이티브 디렉션",
   result: "결과물",
 };
 
@@ -31,15 +31,14 @@ export function NarraCardView({
     window.setTimeout(() => setCopied(false), 1600);
   }
   return (
-    <div className="relative rounded-xl border border-gold/20 bg-panel-strong p-6 flex flex-col gap-4 shadow-[0_0_40px_-12px_rgba(203,161,53,0.25)]">
-      <div className="pointer-events-none absolute -top-px left-6 right-6 h-px bg-gradient-to-r from-transparent via-gold/60 to-transparent" />
+    <div className="relative rounded-2xl border border-violet-500/10 p-5 flex flex-col gap-4" style={{ background: 'rgba(16,12,44,0.84)' }}>
       <div className="flex items-center justify-between gap-2">
         <div className="flex items-center gap-2">
-          <span className="text-[10px] font-semibold uppercase tracking-[0.08em] text-gold">
+          <span className="text-[12px] uppercase tracking-[0.08em] text-violet-200/70">
             {TYPE_LABEL[card.type]}
           </span>
-          {card.format && (
-            <span className="text-[11px] rounded-full border border-gold/25 px-2 py-0.5 text-gold-bright/90">
+          {card.type !== "brand_definition" && card.format && (
+            <span className="text-[11px] rounded-full border border-violet-500/30 px-2 py-0.5 text-violet-200/80">
               {card.format}
             </span>
           )}
@@ -47,12 +46,16 @@ export function NarraCardView({
         <div className="flex items-center gap-2">
           {onSave && (
             <button
-              onClick={onSave}
-              disabled={saved}
-              aria-label={saved ? "저장됨" : "저장"}
-              className="text-xs font-medium rounded-md px-3.5 py-1.5 bg-gold text-void disabled:bg-white/10 disabled:text-faint hover:bg-gold-bright transition-colors"
+              onClick={() => onSave()}
+              aria-label={saved ? "저장됨" : "수집"}
+              className="relative inline-flex h-10 items-center justify-center gap-2 rounded-full bg-[#1c0c2a] border border-gold/25 px-3 text-gold shadow-[0_0_18px_rgba(203,161,53,0.18)] transition hover:bg-[#2a1245] hover:text-gold-bright disabled:cursor-not-allowed disabled:opacity-40"
             >
-              📌
+              <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M8 7V6a4 4 0 0 1 8 0v1" />
+                <path d="M6 10c0-2 1-4 6-4s6 2 6 4v8a4 4 0 0 1-4 4H10a4 4 0 0 1-4-4v-8z" />
+                <path d="M9 14h6" />
+              </svg>
+              <span className="text-sm font-semibold text-white">+1</span>
             </button>
           )}
           {promptText && (
@@ -68,20 +71,24 @@ export function NarraCardView({
           )}
         </div>
       </div>
-      <h3 className="font-semibold text-xl tracking-normal text-ink text-emboss-light">
-        {card.title}
-      </h3>
+      {card.type !== "brand_definition" && card.title !== TYPE_LABEL[card.type] && (
+        <h3 className="font-semibold text-lg tracking-normal text-white/90">
+          {card.title}
+        </h3>
+      )}
       <dl className="flex flex-col gap-4">
-        {Object.entries(card.fields).map(([label, value]) => (
-          <div key={label}>
-            <dt className="text-[11px] uppercase tracking-[0.08em] text-muted mb-1.5">
-              {label}
-            </dt>
-            <dd className="text-[15px] text-ink/75 leading-relaxed whitespace-pre-wrap">
-              {value}
-            </dd>
-          </div>
-        ))}
+        {Object.entries(card.fields)
+          .filter(([label]) => label !== "타깃")
+          .map(([label, value]) => (
+            <div key={label}>
+              <dt className="text-[12px] font-semibold uppercase tracking-[0.08em] text-violet-200/70 mb-1.5">
+                {label}
+              </dt>
+              <dd className="text-[14px] text-white/80 leading-relaxed whitespace-pre-wrap">
+                {value}
+              </dd>
+            </div>
+          ))}
       </dl>
     </div>
   );

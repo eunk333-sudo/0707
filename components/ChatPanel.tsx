@@ -35,6 +35,11 @@ export function ChatPanel({
   const isHero = messages.length === 0;
   const glowing = input.trim().length > 0;
   const [thinkingIndex, setThinkingIndex] = useState(0);
+  const loadingText = loading
+    ? messages.length === 1
+      ? "당신의 세계를 탐험하고 있습니다..."
+      : THINKING_STATES[thinkingIndex]
+    : "";
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -88,7 +93,7 @@ export function ChatPanel({
               </p>
             )}
             <p className="font-serif italic text-xl text-ink text-center leading-relaxed">
-              당신의 세계는 어떤 이야기로 기억되고 싶나요?
+              어떤 분위기의 브랜드를 만들고 싶으신가요?
             </p>
 
             <form
@@ -102,7 +107,7 @@ export function ChatPanel({
                 ref={inputRef}
                 value={input}
                 onChange={(e) => onInputChange(e.target.value)}
-                placeholder="대충 말해도 괜찮아요. NARRA가 함께 정리해드릴게요."
+                placeholder="예) 무중력 속에서 손끝으로 은하에 닿는 순간"
                 disabled={loading}
                 autoFocus
                 className={`w-full rounded-full border bg-white/[0.04] pl-6 pr-14 py-4 text-base text-ink placeholder:text-faint focus:outline-none transition-shadow duration-300 disabled:opacity-50 ${
@@ -166,7 +171,7 @@ export function ChatPanel({
               <span className="animate-pulse [animation-delay:150ms]">·</span>
               <span className="animate-pulse [animation-delay:300ms]">·</span>
             </span>{" "}
-            {THINKING_STATES[thinkingIndex]}
+            {loadingText}
           </div>
         )}
         {error && (
